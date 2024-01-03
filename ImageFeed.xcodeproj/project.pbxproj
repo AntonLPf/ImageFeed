@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A1B6A512B45E3F20000F349 /* mockImagesForTable in Resources */ = {isa = PBXBuildFile; fileRef = 3A1B6A502B45E3F20000F349 /* mockImagesForTable */; };
 		3A38400B2B448FC500094252 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38400A2B448FC500094252 /* AppDelegate.swift */; };
 		3A38400D2B448FC500094252 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38400C2B448FC500094252 /* SceneDelegate.swift */; };
 		3A38400F2B448FC500094252 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38400E2B448FC500094252 /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A1B6A502B45E3F20000F349 /* mockImagesForTable */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mockImagesForTable; sourceTree = "<group>"; };
 		3A3840072B448FC500094252 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A38400A2B448FC500094252 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A38400C2B448FC500094252 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 				3A3840102B448FC500094252 /* Main.storyboard */,
 				3A3840132B448FC600094252 /* Assets.xcassets */,
 				3A3840152B448FC600094252 /* LaunchScreen.storyboard */,
+				3A1B6A502B45E3F20000F349 /* mockImagesForTable */,
 				3A3840182B448FC600094252 /* Info.plist */,
 			);
 			path = ImageFeed;
@@ -126,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A3840172B448FC600094252 /* LaunchScreen.storyboard in Resources */,
+				3A1B6A512B45E3F20000F349 /* mockImagesForTable in Resources */,
 				3A3840142B448FC600094252 /* Assets.xcassets in Resources */,
 				3A3840122B448FC500094252 /* Main.storyboard in Resources */,
 			);
