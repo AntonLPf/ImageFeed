@@ -16,9 +16,24 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="QrE-il-ixW">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <color key="backgroundColor" name="YPBlack"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YPBlack"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="QrE-il-ixW" secondAttribute="trailing" id="QjY-GQ-OqL"/>
+                            <constraint firstAttribute="bottom" secondItem="QrE-il-ixW" secondAttribute="bottom" id="W5a-ok-W5N"/>
+                            <constraint firstItem="QrE-il-ixW" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="fDX-WF-OhR"/>
+                            <constraint firstItem="QrE-il-ixW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="kan-d8-UI5"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="QrE-il-ixW" id="B4U-gw-rgf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
