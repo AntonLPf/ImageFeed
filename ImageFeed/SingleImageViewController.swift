@@ -11,6 +11,8 @@ class SingleImageViewController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var shareButton: UIButton!
+    
     var image: UIImage! {
         didSet {
             guard isViewLoaded else { return }
@@ -23,6 +25,8 @@ class SingleImageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        shareButton.layer.cornerRadius = shareButton.frame.width / 2
+        shareButton.layer.masksToBounds = true
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         imageView.image = image
@@ -31,6 +35,15 @@ class SingleImageViewController: UIViewController {
     
     @IBAction private func didTapBackButton() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func didTapShareButton(_ sender: Any) {
+        guard let image else { return }
+        let share = UIActivityViewController(
+            activityItems: [image],
+            applicationActivities: nil
+        )
+        present(share, animated: true, completion: nil)
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
