@@ -10,6 +10,7 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     // MARK: - creating views
+    
     private let profileImage: UIImageView = {
         let profilePicture = UIImage(named: ProjectConstants.Picture.profilePicture.rawValue)
         let imageView = UIImageView(image: profilePicture)
@@ -62,35 +63,43 @@ class ProfileViewController: UIViewController {
         return containerView
     }()
     
+    private let vStack: UIStackView = {
+        let vStack = UIStackView()
+        vStack.axis = .vertical
+        vStack.alignment = .leading
+        vStack.spacing = 8
+        vStack.translatesAutoresizingMaskIntoConstraints = false
+        return vStack
+    }()
+    
     // MARK: - life cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupMainView()
-        createUI()
+        addSubViews()
+        applyConstraints()
     }
+    
+    // MARK: - assembling
     
     private func setupMainView() {
         view.backgroundColor = UIColor(named: ProjectConstants.Color.ypBlack.rawValue)
     }
     
-    private func createUI() {
+    private func addSubViews() {
         containerView.addSubview(profileImage)
         containerView.addSubview(exitButton)
         
-        let vStack = UIStackView(arrangedSubviews: [
-            containerView,
-            nameLabel,
-            loginNameLabel,
-            descriptionLabel
-        ])
-        vStack.axis = .vertical
-        vStack.alignment = .leading
-        vStack.spacing = 8
-        vStack.translatesAutoresizingMaskIntoConstraints = false
+        vStack.addArrangedSubview(containerView)
+        vStack.addArrangedSubview(nameLabel)
+        vStack.addArrangedSubview(loginNameLabel)
+        vStack.addArrangedSubview(descriptionLabel)
         
         view.addSubview(vStack)
-        
+    }
+    
+    private func applyConstraints() {
         NSLayoutConstraint.activate([
             containerView.heightAnchor.constraint(equalToConstant: 70),
             containerView.leadingAnchor.constraint(equalTo: vStack.leadingAnchor),
