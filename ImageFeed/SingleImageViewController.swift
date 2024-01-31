@@ -13,15 +13,12 @@ class SingleImageViewController: UIViewController {
     
     @IBOutlet private weak var shareButton: UIButton?
     
-    @IBOutlet var imageView: UIImageView?
+    @IBOutlet private var imageView: UIImageView?
     
     var image: UIImage? {
         didSet {
             guard isViewLoaded else { return }
-            if let imageView, let image {
-                imageView.image = image
-                rescaleAndCenterImageInScrollView(image: image)
-            }
+            configureImageView()
         }
     }
 
@@ -33,10 +30,7 @@ class SingleImageViewController: UIViewController {
         }
         scrollView?.minimumZoomScale = 0.1
         scrollView?.maximumZoomScale = 1.25
-        if let imageView, let image {
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
-        }
+        configureImageView()
     }
     
     @IBAction private func didTapBackButton() {
@@ -50,6 +44,13 @@ class SingleImageViewController: UIViewController {
             applicationActivities: nil
         )
         present(share, animated: true, completion: nil)
+    }
+    
+    private func configureImageView() {
+        if let imageView, let image {
+            imageView.image = image
+            rescaleAndCenterImageInScrollView(image: image)
+        }
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
@@ -70,7 +71,6 @@ class SingleImageViewController: UIViewController {
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
-
 }
 
 extension SingleImageViewController: UIScrollViewDelegate {
