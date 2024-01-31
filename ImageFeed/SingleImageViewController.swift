@@ -13,6 +13,8 @@ class SingleImageViewController: UIViewController {
     
     @IBOutlet private weak var shareButton: UIButton?
     
+    @IBOutlet var imageView: UIImageView?
+    
     var image: UIImage? {
         didSet {
             guard isViewLoaded else { return }
@@ -22,8 +24,6 @@ class SingleImageViewController: UIViewController {
             }
         }
     }
-    
-    @IBOutlet var imageView: UIImageView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
