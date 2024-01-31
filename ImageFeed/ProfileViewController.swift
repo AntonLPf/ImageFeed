@@ -9,44 +9,74 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    var profileImage: UIImageView?
-    var nameLabel: UILabel?
-    var loginNameLabel: UILabel?
-    var descriptionLabel: UILabel?
+    // MARK: - creating views
+    private let profileImage: UIImageView = {
+        let profilePicture = UIImage(named: ProjectConstants.Picture.profilePicture.rawValue)
+        let imageView = UIImageView(image: profilePicture)
+        imageView.tintColor = .gray
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
+    private let exitButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.titleLabel?.text = ""
+        let profilePicture = UIImage(named: ProjectConstants.Picture.exitButton.rawValue)
+        button.setImage(profilePicture, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Екатерина Новикова"
+        label.textColor = UIColor(named: ProjectConstants.Color.ypWhite.rawValue)
+        label.font = UIFont(name: ProjectConstants.Font.ysDisplayBold.rawValue, size: 23)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let loginNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "@ekaterina_nov"
+        label.textColor = UIColor(named: ProjectConstants.Color.ypGray.rawValue)
+        label.font = UIFont(name: ProjectConstants.Font.ysDisplayMedium.rawValue, size: 13)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "@Hello, World!"
+        label.textColor = UIColor(named: ProjectConstants.Color.ypWhite.rawValue)
+        label.font = UIFont(name: ProjectConstants.Font.ysDisplayMedium.rawValue, size: 13)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    // MARK: - container views
+    
+    private let containerView: UIView = {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        return containerView
+    }()
+    
+    // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupMainView()
         createUI()
     }
-            
-    private func createUI() {
-        
+    
+    private func setupMainView() {
         view.backgroundColor = UIColor(named: ProjectConstants.Color.ypBlack.rawValue)
-        
-        let profileImage = createProfileImageView()
-
-        let exitButton = createExitButtonView()
-        
-        let nameLabel = createLabel(text: "Екатерина Новикова",
-                                    projectFont: ProjectConstants.Font.ysDisplayBold,
-                                    textColor: ProjectConstants.Color.ypWhite,
-                                    fontSize: 23)
-        
-        let loginNameLabel = createLabel(text: "@ekaterina_nov",
-                                         projectFont: .ysDisplayMedium,
-                                         textColor: .ypGray,
-                                         fontSize: 13)
-        
-        let descriptionLabel = createLabel(text: "Hello, World!",
-                                           projectFont: .ysDisplayMedium,
-                                           textColor: .ypWhite,
-                                           fontSize: 13)
-        
-        let containerView = UIView()
+    }
+    
+    private func createUI() {
         containerView.addSubview(profileImage)
         containerView.addSubview(exitButton)
-        containerView.translatesAutoresizingMaskIntoConstraints = false
         
         let vStack = UIStackView(arrangedSubviews: [
             containerView,
@@ -60,7 +90,7 @@ class ProfileViewController: UIViewController {
         vStack.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(vStack)
-
+        
         NSLayoutConstraint.activate([
             containerView.heightAnchor.constraint(equalToConstant: 70),
             containerView.leadingAnchor.constraint(equalTo: vStack.leadingAnchor),
@@ -70,57 +100,16 @@ class ProfileViewController: UIViewController {
             profileImage.topAnchor.constraint(equalTo: containerView.topAnchor),
             profileImage.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             profileImage.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-
+            
             exitButton.widthAnchor.constraint(equalToConstant: 24),
             exitButton.heightAnchor.constraint(equalToConstant: 24),
             exitButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
             exitButton.leadingAnchor.constraint(greaterThanOrEqualTo: profileImage.trailingAnchor),
             exitButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
-
+            
             vStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 76),
             vStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             vStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
         ])
-        
-        self.profileImage = profileImage
-        self.nameLabel = nameLabel
-        self.loginNameLabel = loginNameLabel
-        self.descriptionLabel = descriptionLabel
     }
-    
-    private func createVStack() -> UIStackView {
-        let vStack = UIStackView()
-        vStack.axis = .vertical
-        vStack.alignment = .leading
-        vStack.spacing = 8
-        vStack.translatesAutoresizingMaskIntoConstraints = false
-        return vStack
-    }
-    
-    private func createProfileImageView() -> UIImageView {
-        let profilePicture = UIImage(named: ProjectConstants.Picture.profilePicture.rawValue)
-        let imageView = UIImageView(image: profilePicture)
-        imageView.tintColor = .gray
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }
-    
-    private func createLabel(text: String,projectFont: ProjectConstants.Font, textColor: ProjectConstants.Color, fontSize: CGFloat) -> UILabel {
-        let label = UILabel()
-        label.text = text
-        label.textColor = UIColor(named: textColor.rawValue)
-        label.font = UIFont(name: projectFont.rawValue, size: fontSize)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }
-    
-    private func createExitButtonView() -> UIButton {
-        let button = UIButton(type: .custom)
-        button.titleLabel?.text = ""
-        let profilePicture = UIImage(named: ProjectConstants.Picture.exitButton.rawValue)
-        button.setImage(profilePicture, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }
-    
 }
