@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		3A1B6A532B45ED7C0000F349 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B6A522B45ED7C0000F349 /* ImagesListCell.swift */; };
 		3A32CF7A2B5C4DF70058B289 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A32CF792B5C4DF70058B289 /* ProfileViewController.swift */; };
-		3A32CF7D2B5C56E50058B289 /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A32CF7C2B5C56E50058B289 /* YS Display-Medium.ttf */; };
-		3A32CF7F2B5C56EC0058B289 /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A32CF7E2B5C56EC0058B289 /* YS Display-Bold.ttf */; };
+		3A32CF7D2B5C56E50058B289 /* YSDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A32CF7C2B5C56E50058B289 /* YSDisplay-Medium.ttf */; };
+		3A32CF7F2B5C56EC0058B289 /* YSDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A32CF7E2B5C56EC0058B289 /* YSDisplay-Bold.ttf */; };
 		3A38400B2B448FC500094252 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38400A2B448FC500094252 /* AppDelegate.swift */; };
 		3A38400D2B448FC500094252 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38400C2B448FC500094252 /* SceneDelegate.swift */; };
 		3A38400F2B448FC500094252 /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A38400E2B448FC500094252 /* ImagesListViewController.swift */; };
@@ -19,14 +19,15 @@
 		3A3840172B448FC600094252 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A3840152B448FC600094252 /* LaunchScreen.storyboard */; };
 		3A4CA15C2B692890007A0D43 /* ProjectConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4CA15B2B692890007A0D43 /* ProjectConstants.swift */; };
 		3A72FAD32B70D28000B5BD10 /* ApiConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72FAD22B70D28000B5BD10 /* ApiConstants.swift */; };
+		3A72FAD52B715F2600B5BD10 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72FAD42B715F2600B5BD10 /* AuthViewController.swift */; };
 		3A78FFE92B603DCA00E01A33 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A78FFE82B603DCA00E01A33 /* SingleImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3A1B6A522B45ED7C0000F349 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		3A32CF792B5C4DF70058B289 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		3A32CF7C2B5C56E50058B289 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
-		3A32CF7E2B5C56EC0058B289 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
+		3A32CF7C2B5C56E50058B289 /* YSDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Medium.ttf"; sourceTree = "<group>"; };
+		3A32CF7E2B5C56EC0058B289 /* YSDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YSDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		3A3840072B448FC500094252 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A38400A2B448FC500094252 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A38400C2B448FC500094252 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +38,7 @@
 		3A3840182B448FC600094252 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A4CA15B2B692890007A0D43 /* ProjectConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectConstants.swift; sourceTree = "<group>"; };
 		3A72FAD22B70D28000B5BD10 /* ApiConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiConstants.swift; sourceTree = "<group>"; };
+		3A72FAD42B715F2600B5BD10 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		3A78FFE82B603DCA00E01A33 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -54,8 +56,8 @@
 		3A32CF7B2B5C56A00058B289 /* Font */ = {
 			isa = PBXGroup;
 			children = (
-				3A32CF7E2B5C56EC0058B289 /* YS Display-Bold.ttf */,
-				3A32CF7C2B5C56E50058B289 /* YS Display-Medium.ttf */,
+				3A32CF7E2B5C56EC0058B289 /* YSDisplay-Bold.ttf */,
+				3A32CF7C2B5C56E50058B289 /* YSDisplay-Medium.ttf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -79,6 +81,7 @@
 		3A3840092B448FC500094252 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				3A72FAD62B7161A200B5BD10 /* Auth */,
 				3A32CF7B2B5C56A00058B289 /* Font */,
 				3A4CA15B2B692890007A0D43 /* ProjectConstants.swift */,
 				3A38400A2B448FC500094252 /* AppDelegate.swift */,
@@ -94,6 +97,14 @@
 				3A72FAD22B70D28000B5BD10 /* ApiConstants.swift */,
 			);
 			path = ImageFeed;
+			sourceTree = "<group>";
+		};
+		3A72FAD62B7161A200B5BD10 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				3A72FAD42B715F2600B5BD10 /* AuthViewController.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,8 +166,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A3840172B448FC600094252 /* LaunchScreen.storyboard in Resources */,
-				3A32CF7D2B5C56E50058B289 /* YS Display-Medium.ttf in Resources */,
-				3A32CF7F2B5C56EC0058B289 /* YS Display-Bold.ttf in Resources */,
+				3A32CF7D2B5C56E50058B289 /* YSDisplay-Medium.ttf in Resources */,
+				3A32CF7F2B5C56EC0058B289 /* YSDisplay-Bold.ttf in Resources */,
 				3A3840142B448FC600094252 /* Assets.xcassets in Resources */,
 				3A3840122B448FC500094252 /* Main.storyboard in Resources */,
 			);
@@ -176,6 +187,7 @@
 				3A72FAD32B70D28000B5BD10 /* ApiConstants.swift in Sources */,
 				3A78FFE92B603DCA00E01A33 /* SingleImageViewController.swift in Sources */,
 				3A1B6A532B45ED7C0000F349 /* ImagesListCell.swift in Sources */,
+				3A72FAD52B715F2600B5BD10 /* AuthViewController.swift in Sources */,
 				3A4CA15C2B692890007A0D43 /* ProjectConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
