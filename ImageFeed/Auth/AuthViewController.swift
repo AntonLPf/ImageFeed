@@ -8,6 +8,8 @@
 import UIKit
 
 class AuthViewController: UIViewController {
+    
+    let showWebViewSegueId = "ShowWebView"
 
     override func viewDidLoad() {
         super.viewDidLoad()
