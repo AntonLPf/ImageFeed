@@ -17,15 +17,24 @@ class AuthViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        let segueId = Constants.SegueId.showWebViewSegue
+        if segue.identifier == segueId {
+            guard let webViewViewController = segue.destination as? WebViewViewController else { fatalError("Failed to prepare for \(segueId)")
+            }
+            webViewViewController.delegate = self
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
     }
-    */
 
+}
+
+extension AuthViewController: WebViewViewControllerDelegate {
+    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        dismiss(animated: true)
+    }
+    
+    func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
+    }
 }

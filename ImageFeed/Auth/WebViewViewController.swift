@@ -8,35 +8,65 @@
 import UIKit
 import WebKit
 
+protocol WebViewViewControllerDelegate: AnyObject {
+    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
+    func webViewViewControllerDidCancel(_ vc: WebViewViewController)
+}
+
 class WebViewViewController: UIViewController {
     
     @IBOutlet private var webView: WKWebView!
+    
+    weak var delegate: WebViewViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!  //1
-//        urlComponents.queryItems = [
-//           URLQueryItem(name: "client_id", value: AccessKey),                  //2
-//           URLQueryItem(name: "redirect_uri", value: RedirectURI),             //3
-//           URLQueryItem(name: "response_type", value: "code"),                 //4
-//           URLQueryItem(name: "scope", value: AccessScope)                     //5
-//         ]
-//         let url = urlComponents.url!                                            //6
+        if let request = getAuthRequest() {
+            webView.load(request)
+            webView.navigationDelegate = self
+        }
     }
     
     @IBAction private func didTapBackButton(_ sender: Any?) { 
         
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func getAuthRequest() -> URLRequest? {
+        guard var urlComponents = URLComponents(string: Constants.Api.authorizingUrlString) else { return nil }
+        urlComponents.queryItems = [
+            URLQueryItem(name: "client_id", value: Constants.Api.accesKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.Api.redirectUri),
+            URLQueryItem(name: "response_type", value: "code"),
+            URLQueryItem(name: "scope", value: Constants.Api.accessScope)
+        ]
+        guard let url = urlComponents.url else { return nil }
+        let request = URLRequest(url: url)
+        return request
     }
-    */
+    
+    private func code(from navigationAction: WKNavigationAction) -> String? {
+        if
+            let url = navigationAction.request.url,
+            let urlComponents = URLComponents(string: url.absoluteString),
+            urlComponents.path == "/oauth/authorize/native",
+            let items = urlComponents.queryItems,
+            let codeItem = items.first(where: { $0.name == "code" })
+        {
+            return codeItem.value
+        } else {
+            return nil
+        }
+    }
+}
 
+extension WebViewViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let code = code(from: navigationAction) {
+            delegate?.webViewViewController(self, didAuthenticateWithCode: code)
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
+    }
 }
