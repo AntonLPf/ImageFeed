@@ -66,17 +66,8 @@ final class WebViewViewController: UIViewController {
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
-    private func getAuthRequest() -> URLRequest? {
-        guard var urlComponents = URLComponents(string: Constants.Api.authorizingUrlString) else { return nil }
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.Api.accesKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.Api.redirectUri),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.Api.accessScope)
-        ]
-        guard let url = urlComponents.url else { return nil }
-        let request = URLRequest(url: url)
-        return request
+    private func getAuthRequest() -> URLRequest? {    
+        try? CodeRequest.getCode.createURLRequest(authToken: "")
     }
 }
 

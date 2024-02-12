@@ -12,7 +12,7 @@ class ProfileViewController: UIViewController {
     // MARK: - creating views
     
     private let profileImage: UIImageView = {
-        let profilePicture = UIImage(named: ProjectConstants.Picture.profilePicture.rawValue)
+        let profilePicture = UIImage(named: ProjectConstants.Picture.profilePicture)
         let imageView = UIImageView(image: profilePicture)
         imageView.tintColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +22,7 @@ class ProfileViewController: UIViewController {
     private let exitButton: UIButton = {
         let button = UIButton(type: .custom)
         button.titleLabel?.text = ""
-        let profilePicture = UIImage(named: ProjectConstants.Picture.exitButton.rawValue)
+        let profilePicture = UIImage(named: ProjectConstants.Picture.exitButton)
         button.setImage(profilePicture, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -31,8 +31,8 @@ class ProfileViewController: UIViewController {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Екатерина Новикова"
-        label.textColor = UIColor(named: ProjectConstants.Color.ypWhite.rawValue)
-        label.font = UIFont(name: ProjectConstants.Font.ysDisplayBold.rawValue, size: 23)
+        label.textColor = UIColor(named: ProjectConstants.Color.ypWhite)
+        label.font = UIFont(name: ProjectConstants.Font.ysDisplayBold, size: 23)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -40,8 +40,8 @@ class ProfileViewController: UIViewController {
     private let loginNameLabel: UILabel = {
         let label = UILabel()
         label.text = "@ekaterina_nov"
-        label.textColor = UIColor(named: ProjectConstants.Color.ypGray.rawValue)
-        label.font = UIFont(name: ProjectConstants.Font.ysDisplayMedium.rawValue, size: 13)
+        label.textColor = UIColor(named: ProjectConstants.Color.ypGray)
+        label.font = UIFont(name: ProjectConstants.Font.ysDisplayMedium, size: 13)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -49,8 +49,8 @@ class ProfileViewController: UIViewController {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "@Hello, World!"
-        label.textColor = UIColor(named: ProjectConstants.Color.ypWhite.rawValue)
-        label.font = UIFont(name: ProjectConstants.Font.ysDisplayMedium.rawValue, size: 13)
+        label.textColor = UIColor(named: ProjectConstants.Color.ypWhite)
+        label.font = UIFont(name: ProjectConstants.Font.ysDisplayMedium, size: 13)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -84,7 +84,7 @@ class ProfileViewController: UIViewController {
     // MARK: - assembling
     
     private func setupMainView() {
-        view.backgroundColor = UIColor(named: ProjectConstants.Color.ypBlack.rawValue)
+        view.backgroundColor = UIColor(named: ProjectConstants.Color.ypBlack)
     }
     
     private func addSubViews() {
