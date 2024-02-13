@@ -8,6 +8,6 @@
 import Foundation
 
 protocol KeyValueStorageProtocol {
-    func save(codable: Codable, key: String) throws
-    func load<T: Codable>(key: String,_ type: T.Type) throws -> Codable
+    func save(codable: Encodable, key: String) throws
+    func load<T: Decodable>(key: String,_ type: T.Type) throws -> T
 }

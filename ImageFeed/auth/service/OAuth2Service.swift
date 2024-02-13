@@ -25,15 +25,10 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         self.storage = storage
         self.tokenStorageKey = Constants.UserDefaultsKey.token.rawValue
         
-        do {
-            let storedToken = try storage.load(key: tokenStorageKey, OAuthTokenResponseBody.self)
-            if let oauthToken = storedToken as? OAuthTokenResponseBody {
-                self.token = oauthToken
-            } else {
-                fatalError("Unable to cast Stored Token to OAuthTokenResponseBody") // TODO: убрать. Сделано на время дебага
-            }
-        } catch {
-            debugPrint(error.localizedDescription)
+        if let storedToken = try? storage.load(key: tokenStorageKey, OAuthTokenResponseBody.self) {
+            self.token = storedToken
+        } else {
+            debugPrint(">>> Faied to load token. Need to authorise/reauthorise")
         }
     }
     
@@ -48,7 +43,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     private func saveToStorage(token: OAuthTokenResponseBody) {
         do {
             try storage.save(codable: token, key: tokenStorageKey)
-            debugPrint(">>> OauthToken saved to storage")
+            debugPrint(">>> OauthToken Saved to Storage")
         } catch {
             fatalError("Unable to save Token to Storage") // TODO: убрать. Сделано на время дебага
         }

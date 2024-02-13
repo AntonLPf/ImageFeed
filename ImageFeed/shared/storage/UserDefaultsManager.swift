@@ -25,23 +25,21 @@ class UserDefaultsManager: KeyValueStorageProtocol {
     
     private let userDefaults = UserDefaults.standard
     
-    func save(codable: Codable, key: String) throws {
-        guard let data = try? JSONEncoder().encode(codable) else {
-            let error = UserDefaultsManagerError.encodingError
-            debugPrint(error)
-            throw error
+    func save(codable: Encodable, key: String) throws {
+        guard
+            let data = try? JSONEncoder().encode(codable)
+        else {
+            throw UserDefaultsManagerError.encodingError
         }
-        
         userDefaults.set(data, forKey: key)
-        debugPrint("\(key) saved to UserDefaults")
     }
     
-    func load<T: Codable>(key: String,_ type: T.Type) throws -> Codable {
-        guard let data = userDefaults.data(forKey: key),
-              let loadedResult = try? JSONDecoder().decode(type, from: data) else {
-            let error = UserDefaultsManagerError.failedLoadingData
-            debugPrint(error)
-            throw error
+    func load<T: Decodable>(key: String,_ type: T.Type) throws -> T {
+        guard
+            let data = userDefaults.data(forKey: key),
+            let loadedResult = try? JSONDecoder().decode(type, from: data)
+        else {
+            throw UserDefaultsManagerError.failedLoadingData
         }
         return loadedResult
     }

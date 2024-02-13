@@ -62,10 +62,12 @@ extension SplashViewController: AuthViewControllerDelegate {
             do {
                 try await oauth2Service?.fetchAuthToken(code: code)
                 debugPrint(">>> Successfully Authorized")
-                vc.dismiss(animated: true)
-                switchToTabBarController()
+                DispatchQueue.main.async {
+                    vc.dismiss(animated: true)
+                    self.switchToTabBarController()
+                }
             } catch {
-                debugPrint(">>>Authorization Error")
+                debugPrint(">>> Authorization Error")
                 debugPrint(error)
             }
         }
