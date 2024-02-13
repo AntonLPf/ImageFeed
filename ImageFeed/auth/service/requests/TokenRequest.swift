@@ -10,7 +10,7 @@ import Foundation
 enum TokenRequest: RequestProtocol {
     case getToken(code: String)
     
-    var host: String { ProjectConstants.SplashApi.host }
+    var host: String { Constants.SplashApi.host }
     
     var requestType: RequestType { .POST }
     
@@ -26,9 +26,9 @@ enum TokenRequest: RequestProtocol {
         switch self {
         case .getToken(let code):
             return [
-                "client_id": ProjectConstants.SplashApi.accesKey,
-                "client_secret": ProjectConstants.SplashApi.secretKey,
-                "redirect_uri": ProjectConstants.SplashApi.redirectUri,
+                "client_id": Constants.SplashApi.accesKey,
+                "client_secret": Constants.SplashApi.secretKey,
+                "redirect_uri": Constants.SplashApi.redirectUri,
                 "code": code,
                 "grant_type": "authorization_code"
             ]

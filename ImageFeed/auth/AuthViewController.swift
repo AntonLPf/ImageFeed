@@ -7,16 +7,20 @@
 
 import UIKit
 
+protocol AuthViewControllerDelegate: AnyObject {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
+}
+
 class AuthViewController: UIViewController {
     
-    let showWebViewSegueId = ProjectConstants.SegueId.showWebViewSegue
+    weak var delegate: AuthViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let segueId = ProjectConstants.SegueId.showWebViewSegue
+        let segueId = Constants.SegueId.showWebViewSegue
         if segue.identifier == segueId {
             guard let webViewViewController = segue.destination as? WebViewViewController else { fatalError("Failed to prepare for \(segueId)")
             }
@@ -25,24 +29,11 @@ class AuthViewController: UIViewController {
             super.prepare(for: segue, sender: sender)
         }
     }
-
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        Task {
-            do {
-                let oauth2Service = OAuth2Service()
-                let token = try await oauth2Service.fetchAuthToken(code: code)
-                debugPrint(">>> Successfully Authorized")
-                let userDefaultsManager = UserDefaultsManager()
-                try? userDefaultsManager.save(codable: token, key: ProjectConstants.UserDefaultsKey.token.rawValue)
-                dismiss(animated: true)
-            } catch {
-                debugPrint(">>>Authorization Error")
-                debugPrint(error)
-            }
-        }
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

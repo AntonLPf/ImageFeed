@@ -10,7 +10,7 @@ import Foundation
 enum CodeRequest: RequestProtocol {
     case getCode
     
-    var host: String { ProjectConstants.SplashApi.host }
+    var host: String { Constants.SplashApi.host }
     
     var requestType: RequestType { .GET }
     
@@ -24,10 +24,10 @@ enum CodeRequest: RequestProtocol {
     
     var urlParams: [String : String?] {
         [
-            "client_id": ProjectConstants.SplashApi.accesKey,
-            "redirect_uri": ProjectConstants.SplashApi.redirectUri,
+            "client_id": Constants.SplashApi.accesKey,
+            "redirect_uri": Constants.SplashApi.redirectUri,
             "response_type": "code",
-            "scope": ProjectConstants.SplashApi.accessScope
+            "scope": Constants.SplashApi.accessScope
         ]
     }
 }

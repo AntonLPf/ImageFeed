@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ENU-1y-rh3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zM9-v6-fbM">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -18,7 +18,8 @@
         <!--Tab Bar Controller-->
         <scene sceneID="z02-jD-Zds">
             <objects>
-                <tabBarController id="zYc-uT-rik" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="zYc-uT-rik" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="W7F-Jr-dBs"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="1cO-yQ-rXc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -37,7 +38,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SRO-Sh-wCm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-897.10144927536237" y="317.41071428571428"/>
+            <point key="canvasLocation" x="-8" y="380"/>
         </scene>
         <!--Auth View Controller-->
         <scene sceneID="2bm-38-anp">
@@ -55,7 +56,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gPh-pH-wyE" userLabel="Войти">
-                                <rect key="frame" x="16" y="680" width="361" height="48"/>
+                                <rect key="frame" x="16" y="714" width="361" height="48"/>
                                 <color key="backgroundColor" name="YPWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="fT9-gg-4b8"/>
@@ -90,7 +91,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zFz-tZ-7Ei" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1900.0000000000002" y="316.07142857142856"/>
+            <point key="canvasLocation" x="871" y="-716"/>
         </scene>
         <!--Web View View Controller-->
         <scene sceneID="nNj-g5-v0C">
@@ -146,7 +147,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ykf-SG-UdV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-898.47328244274809" y="-393.66197183098592"/>
+            <point key="canvasLocation" x="1770" y="-716"/>
         </scene>
         <!--ImageList-->
         <scene sceneID="tne-QT-ifu">
@@ -324,15 +325,16 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yAY-Zb-ZcF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="872.46376811594212" y="717.85714285714278"/>
+            <point key="canvasLocation" x="871" y="723"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="TdV-fP-yv4">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ENU-1y-rh3" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="L1I-FD-aPI"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="VjY-iK-Sh6">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -342,13 +344,45 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QHT-iu-cNk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2810.144927536232" y="316.07142857142856"/>
+            <point key="canvasLocation" x="-7" y="-716"/>
+        </scene>
+        <!--Splash View Controller-->
+        <scene sceneID="bDS-k5-868">
+            <objects>
+                <viewController id="zM9-v6-fbM" customClass="SplashViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IRu-8X-FrX">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PracticumLogo" translatesAutoresizingMaskIntoConstraints="NO" id="z0F-a3-kXb">
+                                <rect key="frame" x="158.66666666666666" y="394.33333333333331" width="76" height="63.333333333333314"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="z0F-a3-kXb" secondAttribute="height" multiplier="158:131" id="7SA-aY-vSC"/>
+                                    <constraint firstAttribute="width" constant="76" id="Oj6-VE-bmc"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="j26-HD-sN9"/>
+                        <color key="backgroundColor" name="YPBlack"/>
+                        <constraints>
+                            <constraint firstItem="z0F-a3-kXb" firstAttribute="centerY" secondItem="IRu-8X-FrX" secondAttribute="centerY" id="V5m-Cd-eMk"/>
+                            <constraint firstItem="z0F-a3-kXb" firstAttribute="centerX" secondItem="IRu-8X-FrX" secondAttribute="centerX" id="Vbn-Wq-Anx"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <segue destination="ENU-1y-rh3" kind="presentation" identifier="ShowAuthenticationScreen" modalPresentationStyle="fullScreen" id="7Bq-Nw-5ps"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bSw-5f-ifQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1248" y="-199"/>
         </scene>
     </scenes>
     <resources>
         <image name="0" width="1200" height="750"/>
         <image name="Backward" width="24" height="24"/>
         <image name="LikePressed" width="42" height="42"/>
+        <image name="PracticumLogo" width="75" height="78"/>
         <image name="ShareButton" width="30" height="30"/>
         <image name="auth_screen_logo" width="60" height="60"/>
         <image name="nav_back_button" width="24" height="24"/>
