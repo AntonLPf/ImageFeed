@@ -22,19 +22,8 @@ class RequestManager: RequestManagerProtocol {
     }
     
     func perform<T>(_ request: RequestProtocol) async throws -> T where T : Decodable {
-        
-        // TODO: так как пока что все запросы не требуют авторизации, то это заглушка и он фактически пока не используется так как у всех запросов addAuthorizationToken установлен в false
-        let authToken = OAuthTokenResponseBody(
-            accessToken: "", 
-            tokenType: "Bearer",
-            refreshToken: "",
-            scope: "",
-            createdAt: 0,
-            userId: 0,
-            username: "")
-            .bearerAccessToken
                 
-        let data = try await apiManager.perform(request, authToken: authToken)
+        let data = try await apiManager.perform(request)
 
         let decoded: T = try parser.parse(data: data)
                 

@@ -98,8 +98,8 @@
 		3A1BF1262B7BDFA00073CA61 /* storage */ = {
 			isa = PBXGroup;
 			children = (
-				3A5780672B7AB2FA0001A30F /* UserDefaultsManager.swift */,
 				3A1BF11C2B7BB3B20073CA61 /* KeyValueStorageProtocol.swift */,
+				3A5780672B7AB2FA0001A30F /* UserDefaultsManager.swift */,
 			);
 			path = storage;
 			sourceTree = "<group>";

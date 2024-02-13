@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Constants {
+enum Constants {
     
     struct Color {
         static let ypBlack = "YPBlack"

@@ -25,20 +25,32 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         self.storage = storage
         self.tokenStorageKey = Constants.UserDefaultsKey.token.rawValue
         
-        if let storedToken = try? storage.load(key: tokenStorageKey, OAuthTokenResponseBody.self) as? OAuthTokenResponseBody {
-            self.token = storedToken
-            debugPrint(">>> OauthToken Loaded from the storage")
-        } else {
-            debugPrint(">>> Stored OauthToken not found")
+        do {
+            let storedToken = try storage.load(key: tokenStorageKey, OAuthTokenResponseBody.self)
+            if let oauthToken = storedToken as? OAuthTokenResponseBody {
+                self.token = oauthToken
+            } else {
+                fatalError("Unable to cast Stored Token to OAuthTokenResponseBody") // TODO: убрать. Сделано на время дебага
+            }
+        } catch {
+            debugPrint(error.localizedDescription)
         }
     }
     
     func fetchAuthToken(code: String) async throws {
         let request = TokenRequest.getToken(code: code)
         let token: OAuthTokenResponseBody = try await requestManager.perform(request)
-        debugPrint(">>> OauthToken Fetched")
+        debugPrint(">>> OauthToken Recieved")
         self.token = token
-        try? storage.save(codable: token, key: tokenStorageKey) //TODO: обработать ошибки
-        debugPrint(">>> OauthToken saved to storage")
+        saveToStorage(token: token)
+    }
+    
+    private func saveToStorage(token: OAuthTokenResponseBody) {
+        do {
+            try storage.save(codable: token, key: tokenStorageKey)
+            debugPrint(">>> OauthToken saved to storage")
+        } catch {
+            fatalError("Unable to save Token to Storage") // TODO: убрать. Сделано на время дебага
+        }
     }
 }

@@ -13,7 +13,7 @@ protocol RequestProtocol {
     var headers: [String: String] { get }
     var params: [String: Any] { get }
     var urlParams: [String: String?] { get }
-    var addAuthorizationToken: Bool { get }
+    var bearerToken: String? { get }
     var requestType: RequestType { get }
 }
 
@@ -31,7 +31,11 @@ extension RequestProtocol {
         [:]
     }
     
-    func createURLRequest(authToken: String) throws -> URLRequest {
+    var bearerToken: String? {
+        nil
+    }
+    
+    func createURLRequest() throws -> URLRequest {
         var components = URLComponents()
         components.scheme = "https"
         components.host = host
@@ -54,8 +58,8 @@ extension RequestProtocol {
             urlRequest.allHTTPHeaderFields = headers
         }
         
-        if addAuthorizationToken {
-            urlRequest.setValue(authToken, forHTTPHeaderField: "Authorization")
+        if let bearerToken {
+            urlRequest.setValue(bearerToken, forHTTPHeaderField: "Authorization")
         }
         
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

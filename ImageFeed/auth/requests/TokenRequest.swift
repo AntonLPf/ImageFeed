@@ -10,14 +10,14 @@ import Foundation
 enum TokenRequest: RequestProtocol {
     case getToken(code: String)
     
-    var host: String { Constants.SplashApi.host }
-    
-    var requestType: RequestType { .POST }
-    
-    var addAuthorizationToken: Bool {
-        false
+    var host: String {
+        Constants.SplashApi.host
     }
     
+    var requestType: RequestType {
+        .POST
+    }
+        
     var path: String {
       "/oauth/token"
     }

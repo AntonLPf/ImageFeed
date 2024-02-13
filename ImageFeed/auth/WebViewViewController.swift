@@ -67,7 +67,7 @@ final class WebViewViewController: UIViewController {
     }
     
     private func getAuthRequest() -> URLRequest? {    
-        try? CodeRequest.getCode.createURLRequest(authToken: "")
+        try? CodeRequest.getCode.createURLRequest()
     }
 }
 
