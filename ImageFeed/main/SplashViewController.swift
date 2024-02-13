@@ -9,7 +9,7 @@ import UIKit
 
 class SplashViewController: UIViewController {
     
-    private var oauth2Service: OAuth2ServiceProtocol?
+    var oauth2Service: OAuth2ServiceProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()

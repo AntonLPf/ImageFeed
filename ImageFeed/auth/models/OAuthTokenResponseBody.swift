@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct APIToken: Codable {
+struct OAuthTokenResponseBody: Codable {
     let accessToken: String
     let tokenType: String
     let refreshToken: String
@@ -18,7 +18,7 @@ struct APIToken: Codable {
 }
 
 // MARK: - Helper properties
-extension APIToken {
+extension OAuthTokenResponseBody {
     
     var bearerAccessToken: String {
         "\(tokenType) \(accessToken)"

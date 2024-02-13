@@ -23,8 +23,8 @@ class RequestManager: RequestManagerProtocol {
     
     func perform<T>(_ request: RequestProtocol) async throws -> T where T : Decodable {
         
-        // TODO: так как пока что все запросы не требуют авторизации, то данный токен это заглушка и он фактически не будет использоваться так как у всех запросов addAuthorizationToken установлен в false
-        let authToken = APIToken(
+        // TODO: так как пока что все запросы не требуют авторизации, то это заглушка и он фактически пока не используется так как у всех запросов addAuthorizationToken установлен в false
+        let authToken = OAuthTokenResponseBody(
             accessToken: "", 
             tokenType: "Bearer",
             refreshToken: "",

@@ -30,7 +30,7 @@
 		3ACFD58C2B7A37920019B543 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD58B2B7A37920019B543 /* ApiManager.swift */; };
 		3ACFD58E2B7A37CE0019B543 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD58D2B7A37CE0019B543 /* RequestManager.swift */; };
 		3ACFD5902B7A37FE0019B543 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD58F2B7A37FE0019B543 /* DataParser.swift */; };
-		3ACFD5922B7A387E0019B543 /* APIToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD5912B7A387E0019B543 /* APIToken.swift */; };
+		3ACFD5922B7A387E0019B543 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD5912B7A387E0019B543 /* OAuthTokenResponseBody.swift */; };
 		3ACFD5942B7A52D60019B543 /* CodeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD5932B7A52D60019B543 /* CodeRequest.swift */; };
 		3ACFD5972B7A572B0019B543 /* TokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD5962B7A572B0019B543 /* TokenRequest.swift */; };
 		3ACFD59A2B7A6EF60019B543 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD5992B7A6EF60019B543 /* OAuth2Service.swift */; };
@@ -62,7 +62,7 @@
 		3ACFD58B2B7A37920019B543 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		3ACFD58D2B7A37CE0019B543 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		3ACFD58F2B7A37FE0019B543 /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
-		3ACFD5912B7A387E0019B543 /* APIToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIToken.swift; sourceTree = "<group>"; };
+		3ACFD5912B7A387E0019B543 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
 		3ACFD5932B7A52D60019B543 /* CodeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeRequest.swift; sourceTree = "<group>"; };
 		3ACFD5962B7A572B0019B543 /* TokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRequest.swift; sourceTree = "<group>"; };
 		3ACFD5992B7A6EF60019B543 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
@@ -82,7 +82,7 @@
 		3A1BF11E2B7BD4DB0073CA61 /* models */ = {
 			isa = PBXGroup;
 			children = (
-				3ACFD5912B7A387E0019B543 /* APIToken.swift */,
+				3ACFD5912B7A387E0019B543 /* OAuthTokenResponseBody.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -90,11 +90,18 @@
 		3A1BF11F2B7BD4F80073CA61 /* service */ = {
 			isa = PBXGroup;
 			children = (
-				3A1BF11C2B7BB3B20073CA61 /* KeyValueStorageProtocol.swift */,
 				3ACFD5992B7A6EF60019B543 /* OAuth2Service.swift */,
-				3ACFD5952B7A55240019B543 /* requests */,
 			);
 			path = service;
+			sourceTree = "<group>";
+		};
+		3A1BF1262B7BDFA00073CA61 /* storage */ = {
+			isa = PBXGroup;
+			children = (
+				3A5780672B7AB2FA0001A30F /* UserDefaultsManager.swift */,
+				3A1BF11C2B7BB3B20073CA61 /* KeyValueStorageProtocol.swift */,
+			);
+			path = storage;
 			sourceTree = "<group>";
 		};
 		3A32CF7B2B5C56A00058B289 /* Font */ = {
@@ -147,8 +154,8 @@
 			isa = PBXGroup;
 			children = (
 				3A4CA15B2B692890007A0D43 /* Constants.swift */,
+				3A1BF1262B7BDFA00073CA61 /* storage */,
 				3ACFD5832B7A36D00019B543 /* networking */,
-				3A5780672B7AB2FA0001A30F /* UserDefaultsManager.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -156,6 +163,7 @@
 		3A72FAD62B7161A200B5BD10 /* auth */ = {
 			isa = PBXGroup;
 			children = (
+				3ACFD5952B7A55240019B543 /* requests */,
 				3A1BF11F2B7BD4F80073CA61 /* service */,
 				3A1BF11E2B7BD4DB0073CA61 /* models */,
 				3A72FAD42B715F2600B5BD10 /* AuthViewController.swift */,
@@ -262,7 +270,7 @@
 				3ACFD58E2B7A37CE0019B543 /* RequestManager.swift in Sources */,
 				3A72FAD82B7168EE00B5BD10 /* WebViewViewController.swift in Sources */,
 				3ACFD5902B7A37FE0019B543 /* DataParser.swift in Sources */,
-				3ACFD5922B7A387E0019B543 /* APIToken.swift in Sources */,
+				3ACFD5922B7A387E0019B543 /* OAuthTokenResponseBody.swift in Sources */,
 				3A38400F2B448FC500094252 /* ImagesListViewController.swift in Sources */,
 				3A1BF11D2B7BB3B20073CA61 /* KeyValueStorageProtocol.swift in Sources */,
 				3ACFD5972B7A572B0019B543 /* TokenRequest.swift in Sources */,
