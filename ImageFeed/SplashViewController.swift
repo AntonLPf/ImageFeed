@@ -28,7 +28,9 @@ class SplashViewController: UIViewController {
     }
     
     private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        guard let window = UIApplication.shared.windows.first else {
+            preconditionFailure("Invalid Configuration")
+        }
         
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: Constants.StoryBoardViewId.tabBarViewController)
@@ -46,11 +48,12 @@ class SplashViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.SegueId.showAuthenticationScreenSegue {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else { fatalError("Failed to prepare for \(Constants.SegueId.showAuthenticationScreenSegue)") }
-            viewController.delegate = self
+            if let navigationController = segue.destination as? UINavigationController,
+               let viewController = navigationController.viewControllers[0] as? AuthViewController {
+                viewController.delegate = self
+            } else {
+                preconditionFailure("Failed to prepare for \(Constants.SegueId.showAuthenticationScreenSegue)")
+            }
         } else {
             super.prepare(for: segue, sender: sender)
         }
