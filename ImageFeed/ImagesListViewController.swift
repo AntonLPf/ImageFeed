@@ -32,13 +32,15 @@ class ImagesListViewController: UIViewController {
         cell.dateLabel.text = dateFormatter.string(from: Date())
         
         let likeImageName = indexPath.row % 2 == 0 ? "LikePressed" : "LikeUnPressed"
-        cell.likeButton.imageView?.image = UIImage(named: likeImageName)                
+        cell.likeButton.imageView?.image = UIImage(named: likeImageName)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showSingleImageSegueIdentifier {
-            guard let viewController = segue.destination as? SingleImageViewController else { return }
-            let indexPath = sender as! IndexPath
+            guard 
+                let viewController = segue.destination as? SingleImageViewController,
+                let indexPath = sender as? IndexPath
+            else { return }
             let image = UIImage(named: photosName[indexPath.row])
             viewController.image = image
         } else {
