@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 class SplashViewController: UIViewController {
     
@@ -62,6 +63,7 @@ class SplashViewController: UIViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        ProgressHUD.show()
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             self.fetchOAuthToken(code)
@@ -73,8 +75,10 @@ extension SplashViewController: AuthViewControllerDelegate {
             do {
                 try await self.oauth2Service?.fetchAuthToken(code: code)
                 debugPrint(">>> Successfully Authorized")
+                ProgressHUD.dismiss()
                 self.switchToTabBarController()
             } catch {
+                ProgressHUD.dismiss()
                 debugPrint(">>> Authorization Error")
                 debugPrint(error)
             }
