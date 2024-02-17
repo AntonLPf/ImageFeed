@@ -19,7 +19,7 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.oauth2Service = OAuth2Service()
+        self.oauth2Service = OAuth2Service.shared
         
         if isAuthorized() {
             switchToTabBarController()
@@ -64,23 +64,21 @@ class SplashViewController: UIViewController {
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         ProgressHUD.show()
-        dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            self.fetchOAuthToken(code)
-        }
+        self.fetchOAuthToken(code)
     }
     
     private func fetchOAuthToken(_ code: String) {
-        Task {
-            do {
-                try await self.oauth2Service?.fetchAuthToken(code: code)
-                debugPrint(">>> Successfully Authorized")
-                ProgressHUD.dismiss()
-                self.switchToTabBarController()
-            } catch {
-                ProgressHUD.dismiss()
-                debugPrint(">>> Authorization Error")
-                debugPrint(error)
+        oauth2Service?.fetchOAuthToken(code) { [weak self] result in
+            DispatchQueue.main.async {
+                guard let self = self else {return}
+                switch result {
+                case .success:
+                    ProgressHUD.dismiss()
+                    self.switchToTabBarController()
+                case .failure:
+                    ProgressHUD.dismiss()
+                    break
+                }
             }
         }
     }

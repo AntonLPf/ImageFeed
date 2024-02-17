@@ -22,16 +22,17 @@ class APIManager: APIManagerProtocol {
     func perform(_ request: RequestProtocol) async throws -> Data {
         do {
             let (data, response) = try await urlSession.data(for: request.createURLRequest())
-            
+                        
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                print("Response status code: \(String(describing: (response as? HTTPURLResponse)?.statusCode))")
+                let responseCode = (response as? HTTPURLResponse)?.statusCode ?? -1
+                print("Response status code: \(String(describing: responseCode))")
                 print((response as? HTTPURLResponse)?.description ?? "Error to get description")
                 
                 if let responseDataString = String(data: data, encoding: .utf8) {
                     print("Response Body: \(responseDataString)")
                 }
                 
-                throw NetworkError.invalidServerResponse
+                throw NetworkError.httpStatusCode(responseCode)
                 
             }
             

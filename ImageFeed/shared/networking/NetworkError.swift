@@ -8,14 +8,21 @@
 import Foundation
 
 enum NetworkError: LocalizedError {
-    case invalidServerResponse
+    case httpStatusCode(Int)
+    case urlRequestError(Error)
+    case urlSessionError
     case invalidURL
+    
     public var errorDescription: String? {
         switch self {
-        case .invalidServerResponse:
-            return "The server returned an invalid response."
+        case .httpStatusCode(let code):
+            return "Invalid response. Code: \(code)"
+        case .urlRequestError(let error):
+            return "Invalid request error: \(error.localizedDescription)"
+        case .urlSessionError:
+            return "Url session Error"
         case .invalidURL:
-            return "URL string is malformed."
+            return "Invalid URL"
         }
     }
 }
