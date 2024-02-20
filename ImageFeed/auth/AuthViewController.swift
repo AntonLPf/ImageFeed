@@ -23,7 +23,7 @@ class AuthViewController: UIViewController {
         let segueId = Constants.SegueId.showWebViewSegue
         if segue.identifier == segueId {
             guard let webViewViewController = segue.destination as? WebViewViewController else { 
-                fatalError("Failed to prepare for \(segueId)") // TODO: убрать. Сделано на время дебага
+                preconditionFailure("Failed to prepare for \(segueId)")
             }
             webViewViewController.delegate = self
         } else {
