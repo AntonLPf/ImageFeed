@@ -16,6 +16,8 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     static let shared = OAuth2Service()
     
     private let urlSession = URLSession.shared
+    private var task: URLSessionTask?
+    private var lastCode: String?
     private let storage: KeyValueStorageProtocol
     private let tokenStorageKey: String
     
@@ -26,24 +28,57 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         self.tokenStorageKey = Constants.UserDefaultsKey.token.rawValue
         
         if let storedToken = try? storage.load(key: tokenStorageKey, OAuthTokenResponseBody.self) {
+            debugPrint(">>> Found stored auth token. User Authorized")
             self.token = storedToken
         } else {
-            debugPrint(">>> Faied to load token. Need to authorise/reauthorise")
+            debugPrint(">>> Faied to load token. Need to authorise/reauthorized")
         }
     }
     
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        let requestManager = RequestManager()
-        let request = TokenRequest.getToken(code: code)
-        Task(priority: .userInitiated) {
-            do {
-                let token: OAuthTokenResponseBody = try await requestManager.perform(request)
-                saveToStorage(token: token)
-                completion(.success(token.accessToken))
-            } catch {
-                completion(.failure(error))
+        assert(Thread.isMainThread)
+        
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
+        
+        guard let request = try? TokenRequest.getToken(code: code).createURLRequest() else {
+            preconditionFailure("Invalid token request configuration")
+        }
+        
+        let task = urlSession.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if let error {
+                    self.lastCode = nil
+                    completion(.failure(error))
+                } else if let httpResponse = response as? HTTPURLResponse {
+                    
+                    let statusCode = httpResponse.statusCode
+                    
+                    switch statusCode {
+                    case 200..<300:
+                        let parser = DataParser()
+                        if
+                            let data,
+                            let token: OAuthTokenResponseBody = try? parser.parse(data: data) {
+                            self.token = token
+                            self.saveToStorage(token: token)
+                            completion(.success(""))
+                        } else {
+                            let error = NetworkError.parsingError
+                            completion(.failure(error))
+                            assertionFailure(error.errorDescription)
+                        }
+                    default:
+                        self.lastCode = nil
+                        completion(.failure(NetworkError.httpStatusCode(statusCode)))
+                    }
+                }
+                self.task = nil
             }
         }
+        self.task = task
+        task.resume()
     }
     
     private func saveToStorage(token: OAuthTokenResponseBody) {
@@ -51,52 +86,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             try storage.save(codable: token, key: tokenStorageKey)
             debugPrint(">>> OauthToken Saved to Storage")
         } catch {
-            fatalError("Unable to save Token to Storage") // TODO: убрать. Сделано на время дебага
+            preconditionFailure("Unable to save Token to Storage")
         }
-    }
-}
-
-extension OAuth2Service {
-    private func object(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) -> URLSessionTask {
-        let decoder = JSONDecoder()
-        return urlSession.data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<OAuthTokenResponseBody, Error> in
-                Result { try decoder.decode(OAuthTokenResponseBody.self, from: data) }
-            }
-            completion(response)
-        }
-    }
-}
-
-// MARK: - HTTP Request
-extension URLSession {
-    func data(
-        for request: URLRequest,
-        completion: @escaping (Result<Data, Error>) -> Void
-    ) -> URLSessionTask {
-        let fulfillCompletion: (Result<Data, Error>) -> Void = { result in
-            DispatchQueue.main.async {
-                completion(result)
-            }
-        }
-        
-        let task = dataTask(with: request, completionHandler: { data, response, error in
-            if let data = data,
-               let response = response,
-               let statusCode = (response as? HTTPURLResponse)?.statusCode
-            {
-                if 200 ..< 300 ~= statusCode {
-                    fulfillCompletion(.success(data))
-                } else {
-                    fulfillCompletion(.failure(NetworkError.httpStatusCode(statusCode)))
-                }
-            } else if let error = error {
-                fulfillCompletion(.failure(NetworkError.urlRequestError(error)))
-            } else {
-                fulfillCompletion(.failure(NetworkError.urlSessionError))
-            }
-        })
-        task.resume()
-        return task
     }
 }

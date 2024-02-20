@@ -12,8 +12,9 @@ enum NetworkError: LocalizedError {
     case urlRequestError(Error)
     case urlSessionError
     case invalidURL
+    case parsingError
     
-    public var errorDescription: String? {
+    public var errorDescription: String {
         switch self {
         case .httpStatusCode(let code):
             return "Invalid response. Code: \(code)"
@@ -23,6 +24,8 @@ enum NetworkError: LocalizedError {
             return "Url session Error"
         case .invalidURL:
             return "Invalid URL"
+        case .parsingError:
+            return "Parsing Error"
         }
     }
 }
