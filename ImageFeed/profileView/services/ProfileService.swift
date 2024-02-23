@@ -7,18 +7,13 @@
 
 import Foundation
 
-protocol ProfileServiceProtocol {
-    func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void)
-}
-
-final class ProfileService: ProfileServiceProtocol {
+final class ProfileService {
     static let shared = ProfileService()
-    
     private init() {}
     
     private(set) var profile: Profile?
-    private var ongoingTask: URLSessionTask?
     
+    private var ongoingTask: URLSessionTask?
     private let urlSession = URLSession.shared
     private let parser = DataParser()
     

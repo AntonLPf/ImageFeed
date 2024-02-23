@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct UserResult: Decodable {
+    let profileImage: ImageUrl
+    
+    struct ImageUrl: Decodable {
+        let small: String
+    }
+}

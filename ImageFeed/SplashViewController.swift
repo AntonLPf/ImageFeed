@@ -10,7 +10,7 @@ import ProgressHUD
 
 class SplashViewController: UIViewController {
     
-    private let profileService: ProfileServiceProtocol = ProfileService.shared
+    private let profileService = ProfileService.shared
     private let oauth2Service: OAuth2ServiceProtocol = OAuth2Service.shared
 
     override func viewDidLoad() {
@@ -91,18 +91,19 @@ extension SplashViewController: AuthViewControllerDelegate {
             UIBlockingProgressHUD.show()
         }
         profileService.fetchProfile(token) { [weak self] result in
-            DispatchQueue.main.async {
-                UIBlockingProgressHUD.dismiss()
-            }
-
             guard let self = self else { return }
             
             switch result {
-            case .success:
+            case .success(let profile):
+                ProfileImageService.shared.fetchProfileImageURL(token, username: profile.username) { _ in }
                 DispatchQueue.main.async {
+                    UIBlockingProgressHUD.dismiss()
                     self.switchToTabBarController()
                 }
             case .failure:
+                DispatchQueue.main.async {
+                    UIBlockingProgressHUD.dismiss()
+                }
                 // TODO [Sprint 11] Покажите ошибку получения профиля
                 break
             }
