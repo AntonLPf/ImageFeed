@@ -13,11 +13,15 @@ protocol RequestProtocol {
     var headers: [String: String] { get }
     var params: [String: Any] { get }
     var urlParams: [String: String?] { get }
-    var bearerToken: String? { get }
+    var isAuthorizationNeeded: Bool { get }
     var requestType: RequestType { get }
 }
 
 extension RequestProtocol {
+    
+    var host: String {
+        Constants.SplashApi.host
+    }
         
     var params: [String: Any] {
         [:]
@@ -31,11 +35,11 @@ extension RequestProtocol {
         [:]
     }
     
-    var bearerToken: String? {
-        nil
+    var isAuthorizationNeeded: Bool {
+        true
     }
     
-    func createURLRequest() throws -> URLRequest {
+    func createURLRequest(token: String?) throws -> URLRequest {
         var components = URLComponents()
         components.scheme = "https"
         components.host = host
@@ -58,8 +62,9 @@ extension RequestProtocol {
             urlRequest.allHTTPHeaderFields = headers
         }
         
-        if let bearerToken {
-            urlRequest.setValue(bearerToken, forHTTPHeaderField: "Authorization")
+        if isAuthorizationNeeded {
+            guard let token else { throw NetworkError.noToken }
+            urlRequest.setValue("\(token)", forHTTPHeaderField: "Authorization")
         }
         
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")

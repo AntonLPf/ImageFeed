@@ -9,6 +9,7 @@ import UIKit
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
+    func didAuthenticate(_ vc: AuthViewController)
 }
 
 class AuthViewController: UIViewController {
@@ -38,6 +39,6 @@ extension AuthViewController: WebViewViewControllerDelegate {
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
-        dismiss(animated: true)
+        delegate?.didAuthenticate(self)
     }
 }

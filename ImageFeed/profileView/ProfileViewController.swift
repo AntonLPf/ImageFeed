@@ -79,6 +79,11 @@ class ProfileViewController: UIViewController {
         setupMainView()
         addSubViews()
         applyConstraints()
+        
+        let profileService = ProfileService.shared
+        if let profile = profileService.profile {
+            updateProfileDetails(profile)
+        }
     }
     
     // MARK: - assembling
@@ -120,5 +125,11 @@ class ProfileViewController: UIViewController {
             vStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             vStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
         ])
+    }
+    
+    private func updateProfileDetails(_ profile: Profile) {
+        nameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
     }
 }

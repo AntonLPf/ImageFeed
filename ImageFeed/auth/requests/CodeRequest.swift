@@ -9,17 +9,17 @@ import Foundation
 
 enum CodeRequest: RequestProtocol {
     case getCode
-    
-    var host: String {
-        Constants.SplashApi.host
-    }
-    
+        
     var requestType: RequestType {
         .GET
     }
         
     var path: String {
       "/oauth/authorize"
+    }
+    
+    var isAuthorizationNeeded: Bool {
+        false
     }
     
     var urlParams: [String : String?] {

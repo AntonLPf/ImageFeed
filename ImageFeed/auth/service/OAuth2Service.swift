@@ -42,7 +42,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         task?.cancel()
         lastCode = code
         
-        guard let request = try? TokenRequest.getToken(code: code).createURLRequest() else {
+        guard let request = try? TokenRequest.getToken(code: code).createURLRequest(token: nil) else {
             preconditionFailure("Invalid token request configuration")
         }
         
@@ -63,7 +63,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
                             let token: OAuthTokenResponseBody = try? parser.parse(data: data) {
                             self.token = token
                             self.saveToStorage(token: token)
-                            completion(.success(""))
+                            completion(.success(token.bearerAccessToken))
                         } else {
                             let error = NetworkError.parsingError
                             completion(.failure(error))

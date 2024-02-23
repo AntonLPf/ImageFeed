@@ -10,7 +10,8 @@ import ProgressHUD
 
 class SplashViewController: UIViewController {
     
-    private var oauth2Service: OAuth2ServiceProtocol?
+    private let profileService: ProfileServiceProtocol = ProfileService.shared
+    private let oauth2Service: OAuth2ServiceProtocol = OAuth2Service.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,11 +19,8 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        self.oauth2Service = OAuth2Service.shared
-        
-        if isAuthorized() {
-            switchToTabBarController()
+        if let token = oauth2Service.token {
+            fetchProfile(token.bearerAccessToken)
         } else {
             performSegue(withIdentifier: Constants.SegueId.showAuthenticationScreenSegue, sender: nil)
         }
@@ -42,11 +40,7 @@ class SplashViewController: UIViewController {
     private func navigateToAuthScreen() {
         performSegue(withIdentifier: Constants.SegueId.showAuthenticationScreenSegue, sender: nil)
     }
-    
-    private func isAuthorized() -> Bool {
-        oauth2Service?.token != nil
-    }
-    
+        
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.SegueId.showAuthenticationScreenSegue {
             if let navigationController = segue.destination as? UINavigationController,
@@ -67,18 +61,50 @@ extension SplashViewController: AuthViewControllerDelegate {
         self.fetchOAuthToken(code)
     }
     
+    func didAuthenticate(_ vc: AuthViewController) {
+        vc.dismiss(animated: true)
+        
+        guard let token = oauth2Service.token?.bearerAccessToken else { return }
+        
+        fetchProfile(token)
+    }
+    
     private func fetchOAuthToken(_ code: String) {
-        oauth2Service?.fetchOAuthToken(code) { [weak self] result in
+        oauth2Service.fetchOAuthToken(code) { [weak self] result in
             DispatchQueue.main.async {
                 guard let self = self else {return}
                 switch result {
                 case .success:
-                    UIBlockingProgressHUD.dismiss()
-                    self.switchToTabBarController()
+                    if let token = self.oauth2Service.token {
+                        self.fetchProfile(token.bearerAccessToken)
+                    }
                 case .failure:
                     UIBlockingProgressHUD.dismiss()
                     break
                 }
+            }
+        }
+    }
+        
+    private func fetchProfile(_ token: String) {
+        DispatchQueue.main.async {
+            UIBlockingProgressHUD.show()
+        }
+        profileService.fetchProfile(token) { [weak self] result in
+            DispatchQueue.main.async {
+                UIBlockingProgressHUD.dismiss()
+            }
+
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.switchToTabBarController()
+                }
+            case .failure:
+                // TODO [Sprint 11] Покажите ошибку получения профиля
+                break
             }
         }
     }

@@ -9,13 +9,13 @@ import Foundation
 
 enum TokenRequest: RequestProtocol {
     case getToken(code: String)
-    
-    var host: String {
-        Constants.SplashApi.host
-    }
-    
+        
     var requestType: RequestType {
         .POST
+    }
+    
+    var isAuthorizationNeeded: Bool {
+        false
     }
         
     var path: String {

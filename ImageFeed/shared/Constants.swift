@@ -36,6 +36,7 @@ enum Constants {
     
     struct SplashApi {
         static let host = "unsplash.com"
+        static let apiHost = "api.unsplash.com"
         static let accesKey = "gOcCwhsMrjRXy83ALiImrfQhnm2-NoA5TL3-MeHbRMA"
         static let secretKey = "EI7spYRB6F_WOjKYB2r2uB3Npg9ctzv17v7AV_IgD9Y"
         static let redirectUri = "urn:ietf:wg:oauth:2.0:oob"

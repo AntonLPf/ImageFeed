@@ -13,6 +13,7 @@ enum NetworkError: LocalizedError {
     case urlSessionError
     case invalidURL
     case parsingError
+    case noToken
     
     public var errorDescription: String {
         switch self {
@@ -26,6 +27,8 @@ enum NetworkError: LocalizedError {
             return "Invalid URL"
         case .parsingError:
             return "Parsing Error"
+        case .noToken:
+            return "No AuthToken"
         }
     }
 }
