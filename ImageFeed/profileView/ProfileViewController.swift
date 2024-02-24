@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
     // MARK: - creating views
     
     private let profileImage: UIImageView = {
@@ -80,6 +82,16 @@ class ProfileViewController: UIViewController {
         addSubViews()
         applyConstraints()
         
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main,
+            using: { [weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            })
+        updateAvatar()
+        
         let profileService = ProfileService.shared
         if let profile = profileService.profile {
             updateProfileDetails(profile)
@@ -131,5 +143,12 @@ class ProfileViewController: UIViewController {
         nameLabel.text = profile.name
         loginNameLabel.text = profile.loginName
         descriptionLabel.text = profile.bio
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageUrl = ProfileImageService.shared.avatarUrl,
+            let URL = URL(string: profileImageUrl)
+        else { return }
     }
 }

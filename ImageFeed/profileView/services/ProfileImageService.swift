@@ -12,6 +12,8 @@ final class ProfileImageService {
     static let shared = ProfileImageService()
     private init() {}
     
+    static let didChangeNotification = Notification.Name("ProfileImageProviderDidChange")
+    
     private var ongoingTask: URLSessionTask?
     private let urlSession = URLSession.shared
     private let parser = DataParser()
@@ -46,6 +48,10 @@ final class ProfileImageService {
                     let profileImageUrl = userResult.profileImage.small
                     self.avatarUrl = profileImageUrl
                     completion(.success(profileImageUrl))
+                    NotificationCenter.default.post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL": profileImageUrl])
                 default:
                     debugPrint("FAILED TO GET IMAGE URL")
                     debugPrint(statusCode)
