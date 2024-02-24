@@ -8,7 +8,7 @@
 import Foundation
 
 protocol OAuth2ServiceProtocol {
-    var token: OAuthTokenResponseBody? { get }
+    var token: String? { get }
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void)
 }
 
@@ -21,13 +21,13 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     private let storage: KeyValueStorageProtocol
     private let tokenStorageKey: String
     
-    var token: OAuthTokenResponseBody?
+    var token: String?
     
     private init(storage: KeyValueStorageProtocol = UserDefaultsManager()) {
         self.storage = storage
         self.tokenStorageKey = Constants.UserDefaultsKey.token.rawValue
         
-        if let storedToken = try? storage.load(key: tokenStorageKey, OAuthTokenResponseBody.self) {
+        if let storedToken = try? storage.load(key: tokenStorageKey, String.self) {
             debugPrint(">>> Found stored auth token. User Authorized")
             self.token = storedToken
         } else {
@@ -46,42 +46,22 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             preconditionFailure("Invalid token request configuration")
         }
         
-        let task = urlSession.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
-                if let error {
-                    self.lastCode = nil
-                    completion(.failure(error))
-                } else if let httpResponse = response as? HTTPURLResponse {
-                    
-                    let statusCode = httpResponse.statusCode
-                    
-                    switch statusCode {
-                    case 200..<300:
-                        let parser = DataParser()
-                        if
-                            let data,
-                            let token: OAuthTokenResponseBody = try? parser.parse(data: data) {
-                            self.token = token
-                            self.saveToStorage(token: token)
-                            completion(.success(token.bearerAccessToken))
-                        } else {
-                            let error = NetworkError.parsingError
-                            completion(.failure(error))
-                            assertionFailure(error.errorDescription)
-                        }
-                    default:
-                        self.lastCode = nil
-                        completion(.failure(NetworkError.httpStatusCode(statusCode)))
-                    }
-                }
-                self.task = nil
+        let task = urlSession.objectTask(for: request) { (result: Result<OAuthTokenResponseBody, Error>) in
+            switch result {
+            case .success(let token):
+                let bearerAccessToken = token.bearerAccessToken
+                self.token = bearerAccessToken
+                completion(.success(bearerAccessToken))
+                self.saveToStorage(token: bearerAccessToken)
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
         self.task = task
         task.resume()
     }
     
-    private func saveToStorage(token: OAuthTokenResponseBody) {
+    private func saveToStorage(token: String) {
         do {
             try storage.save(codable: token, key: tokenStorageKey)
             debugPrint(">>> OauthToken Saved to Storage")

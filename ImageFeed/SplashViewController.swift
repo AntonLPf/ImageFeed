@@ -20,7 +20,7 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let token = oauth2Service.token {
-            fetchProfile(token.bearerAccessToken)
+            fetchProfile(token)
         } else {
             performSegue(withIdentifier: Constants.SegueId.showAuthenticationScreenSegue, sender: nil)
         }
@@ -64,7 +64,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
         vc.dismiss(animated: true)
         
-        guard let token = oauth2Service.token?.bearerAccessToken else { return }
+        guard let token = oauth2Service.token else { return }
         
         fetchProfile(token)
     }
@@ -76,7 +76,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 switch result {
                 case .success:
                     if let token = self.oauth2Service.token {
-                        self.fetchProfile(token.bearerAccessToken)
+                        self.fetchProfile(token)
                     }
                 case .failure:
                     UIBlockingProgressHUD.dismiss()
