@@ -15,6 +15,7 @@
 		3A1697FF2B892E910002ED41 /* UserResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1697FE2B892E910002ED41 /* UserResult.swift */; };
 		3A1698022B89502A0002ED41 /* ProfileImageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1698012B89502A0002ED41 /* ProfileImageRequest.swift */; };
 		3A1698042B89E5130002ED41 /* URLSession+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1698032B89E5130002ED41 /* URLSession+extension.swift */; };
+		3A1698062B89F59D0002ED41 /* ErrorPrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1698052B89F59D0002ED41 /* ErrorPrinter.swift */; };
 		3A1B6A532B45ED7C0000F349 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B6A522B45ED7C0000F349 /* ImagesListCell.swift */; };
 		3A1BF11B2B7BAF320073CA61 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1BF11A2B7BAF320073CA61 /* SplashViewController.swift */; };
 		3A1BF11D2B7BB3B20073CA61 /* KeyValueStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1BF11C2B7BB3B20073CA61 /* KeyValueStorageProtocol.swift */; };
@@ -53,6 +54,7 @@
 		3A1697FE2B892E910002ED41 /* UserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResult.swift; sourceTree = "<group>"; };
 		3A1698012B89502A0002ED41 /* ProfileImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageRequest.swift; sourceTree = "<group>"; };
 		3A1698032B89E5130002ED41 /* URLSession+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+extension.swift"; sourceTree = "<group>"; };
+		3A1698052B89F59D0002ED41 /* ErrorPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPrinter.swift; sourceTree = "<group>"; };
 		3A1B6A522B45ED7C0000F349 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		3A1BF11A2B7BAF320073CA61 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		3A1BF11C2B7BB3B20073CA61 /* KeyValueStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStorageProtocol.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				3A4CA15B2B692890007A0D43 /* Constants.swift */,
 				3A1BF1262B7BDFA00073CA61 /* storage */,
 				3ACFD5832B7A36D00019B543 /* networking */,
+				3A1698052B89F59D0002ED41 /* ErrorPrinter.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				3A5780682B7AB2FA0001A30F /* UserDefaultsManager.swift in Sources */,
 				3A1697FF2B892E910002ED41 /* UserResult.swift in Sources */,
 				3A38400B2B448FC500094252 /* AppDelegate.swift in Sources */,
+				3A1698062B89F59D0002ED41 /* ErrorPrinter.swift in Sources */,
 				3A32CF7A2B5C4DF70058B289 /* ProfileViewController.swift in Sources */,
 				3A1697FA2B88F7030002ED41 /* ProfileService.swift in Sources */,
 				3A1698042B89E5130002ED41 /* URLSession+extension.swift in Sources */,

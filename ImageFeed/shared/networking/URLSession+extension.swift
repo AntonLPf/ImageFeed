@@ -19,19 +19,25 @@ extension URLSession {
             }
         }
         
-        let task = dataTask(with: request, completionHandler: { data, response, error in
-            if let data = data, let response = response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
+        let task = dataTask(with: request) { data, response, error in
+            if let data, let response, let statusCode = (response as? HTTPURLResponse)?.statusCode {
                 if 200 ..< 300 ~= statusCode {
                     fulfillCompletionOnTheMainThread(.success(data))
                 } else {
-                    fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
+                    let error = NetworkError.httpStatusCode(statusCode)
+                    ErrorPrinterService.shared.printToConsole(error)
+                    fulfillCompletionOnTheMainThread(.failure(error))
                 }
-            } else if let error = error {
-                fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError(error)))
+            } else if let error {
+                let error = NetworkError.urlRequestError(error)
+                ErrorPrinterService.shared.printToConsole(error)
+                fulfillCompletionOnTheMainThread(.failure(error))
             } else {
-                fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
+                let error = NetworkError.urlSessionError
+                ErrorPrinterService.shared.printToConsole(error)
+                fulfillCompletionOnTheMainThread(.failure(error))
             }
-        })
+        }
         
         return task
     }
@@ -48,9 +54,12 @@ extension URLSession {
                     let decoded: T = try parser.parse(data: data)
                     completion(.success(decoded))
                 } catch {
+                    ErrorPrinterService.shared.printToConsole(error)
+                    debugPrint("Ошибка декодирования: \(error.localizedDescription), Данные: \(String(data: data, encoding: .utf8) ?? "")")
                     completion(.failure(error))
                 }
             case .failure(let error):
+                ErrorPrinterService.shared.printToConsole(error)
                 completion(.failure(error))
             }
         }

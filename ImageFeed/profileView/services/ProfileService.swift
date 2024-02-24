@@ -32,6 +32,7 @@ final class ProfileService {
                 self.profile = profile
                 completion(.success(profile))
             case .failure(let error):
+                ErrorPrinterService.shared.printToConsole(error)
                 completion(.failure(error))
             }
         }

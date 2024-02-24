@@ -54,6 +54,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
                 completion(.success(bearerAccessToken))
                 self.saveToStorage(token: bearerAccessToken)
             case .failure(let error):
+                ErrorPrinterService.shared.printToConsole(error)
                 completion(.failure(error))
             }
         }
@@ -66,6 +67,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             try storage.save(codable: token, key: tokenStorageKey)
             debugPrint(">>> OauthToken Saved to Storage")
         } catch {
+            ErrorPrinterService.shared.printToConsole(error)
             preconditionFailure("Unable to save Token to Storage")
         }
     }
