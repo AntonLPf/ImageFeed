@@ -24,41 +24,27 @@ final class ProfileService {
         guard let request = try? ProfileRequest.getProfile.createURLRequest(token: token) else {
             preconditionFailure("Invalid token request configuration")
         }
-
-        let task = urlSession.dataTask(with: request) { data, response, error in
-            if let error {
+        
+        let task = urlSession.objectTask(for: request) { (result: Result<ProfileResult, Error>) in
+            switch result {
+            case .success(let profileResult):
+                let profile = self.convert(profileResult)
+                self.profile = profile
+                completion(.success(profile))
+            case .failure(let error):
                 completion(.failure(error))
-            } else if let httpResponse = response as? HTTPURLResponse {
-                
-                let statusCode = httpResponse.statusCode
-                
-                switch statusCode {
-                case 200..<300:
-                    guard
-                        let data,
-                        let profileResult: ProfileResult = try? self.parser.parse(data: data)
-                    else {
-                        let error = NetworkError.parsingError
-                        completion(.failure(error))
-                        return
-                    }
-                    
-                    let username = profileResult.username
-                    let name = "\(profileResult.firstName) \(profileResult.lastName)"
-                    let loginName = "@\(username)"
-                    let bio = profileResult.bio ?? ""
-                    
-                    let profile = Profile(username: username, name: name, loginName: loginName, bio: bio)
-                    self.profile = profile
-                    completion(.success(profile))
-                default:
-                    
-                    completion(.failure(NetworkError.httpStatusCode(statusCode)))
-                }
             }
-            self.ongoingTask = nil
         }
         self.ongoingTask = task
         task.resume()
+    }
+    
+    private func convert(_ profileResult: ProfileResult) -> Profile {
+        let username = profileResult.username
+        let name = "\(profileResult.firstName) \(profileResult.lastName)"
+        let loginName = "@\(username)"
+        let bio = profileResult.bio ?? ""
+        
+        return Profile(username: username, name: name, loginName: loginName, bio: bio)
     }
 }

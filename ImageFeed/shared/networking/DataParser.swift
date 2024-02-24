@@ -14,8 +14,8 @@ protocol DataParserProtocol {
 class DataParser: DataParserProtocol {
     private var jsonDecoder: JSONDecoder
     
-    init(jsonDecoder: JSONDecoder = JSONDecoder()) {
-        self.jsonDecoder = jsonDecoder
+    init() {
+        self.jsonDecoder = JSONDecoder()
         self.jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
     }
     
