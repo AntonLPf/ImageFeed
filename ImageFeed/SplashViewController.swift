@@ -87,9 +87,6 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
         
     private func fetchProfile(_ token: String) {
-        DispatchQueue.main.async {
-            UIBlockingProgressHUD.show()
-        }
         profileService.fetchProfile(token) { [weak self] result in
             guard let self = self else { return }
             
@@ -104,7 +101,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 DispatchQueue.main.async {
                     UIBlockingProgressHUD.dismiss()
                 }
-                // TODO [Sprint 11] Покажите ошибку получения профиля
+                #warning("Покажите ошибку получения профиля")
                 break
             }
         }

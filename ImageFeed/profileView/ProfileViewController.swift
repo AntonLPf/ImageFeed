@@ -21,6 +21,8 @@ class ProfileViewController: UIViewController {
         let imageView = UIImageView(image: profilePicture)
         imageView.tintColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.backgroundColor = .clear
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -154,13 +156,12 @@ class ProfileViewController: UIViewController {
             let imageUrl = URL(string: profileImageUrl)
         else { return }
         
-        let resource = KF.ImageResource(downloadURL: imageUrl)
         let placeHolderImage = UIImage(named: Constants.Picture.profilePicturePlaceHolder)
         let processor = RoundCornerImageProcessor(cornerRadius: Self.profileImageWidth / 2)
         
         profileImage.kf.indicatorType = .activity
         profileImage.kf.setImage(
-            with: resource,
+            with: imageUrl,
             placeholder: placeHolderImage,
             options: [.processor(processor)])
     }
