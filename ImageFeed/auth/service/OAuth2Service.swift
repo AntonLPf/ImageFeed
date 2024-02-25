@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftKeychainWrapper
 
 protocol OAuth2ServiceProtocol {
     var token: String? { get }
@@ -18,16 +19,14 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
-    private let storage: KeyValueStorageProtocol
     private let tokenStorageKey: String
     
     var token: String?
     
-    private init(storage: KeyValueStorageProtocol = UserDefaultsManager()) {
-        self.storage = storage
+    private init() {
         self.tokenStorageKey = Constants.UserDefaultsKey.token.rawValue
         
-        if let storedToken = try? storage.load(key: tokenStorageKey, String.self) {
+        if let storedToken = KeychainWrapper.standard.string(forKey: tokenStorageKey) {
             debugPrint(">>> Found stored auth token. User Authorized")
             self.token = storedToken
         } else {
@@ -63,12 +62,10 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     }
     
     private func saveToStorage(token: String) {
-        do {
-            try storage.save(codable: token, key: tokenStorageKey)
-            debugPrint(">>> OauthToken Saved to Storage")
-        } catch {
-            ErrorPrinterService.shared.printToConsole(error)
+        let isSuccess = KeychainWrapper.standard.set(token, forKey: tokenStorageKey)
+        guard isSuccess else {
             preconditionFailure("Unable to save Token to Storage")
         }
+        debugPrint(">>> OauthToken Saved to Storage")
     }
 }
