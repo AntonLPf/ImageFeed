@@ -6,15 +6,18 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ProfileViewController: UIViewController {
     
     private var profileImageServiceObserver: NSObjectProtocol?
     
+    private static let profileImageWidth = 70.0
+    
     // MARK: - creating views
     
     private let profileImage: UIImageView = {
-        let profilePicture = UIImage(named: Constants.Picture.profilePicture)
+        let profilePicture = UIImage(named: Constants.Picture.profilePicturePlaceHolder)
         let imageView = UIImageView(image: profilePicture)
         imageView.tintColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -122,7 +125,7 @@ class ProfileViewController: UIViewController {
             containerView.leadingAnchor.constraint(equalTo: vStack.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: vStack.trailingAnchor),
             
-            profileImage.widthAnchor.constraint(equalToConstant: 70),
+            profileImage.widthAnchor.constraint(equalToConstant: Self.profileImageWidth),
             profileImage.topAnchor.constraint(equalTo: containerView.topAnchor),
             profileImage.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             profileImage.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
@@ -146,9 +149,19 @@ class ProfileViewController: UIViewController {
     }
     
     private func updateAvatar() {
-        guard
+        guard 
             let profileImageUrl = ProfileImageService.shared.avatarUrl,
-            let URL = URL(string: profileImageUrl)
+            let imageUrl = URL(string: profileImageUrl)
         else { return }
+        
+        let resource = KF.ImageResource(downloadURL: imageUrl)
+        let placeHolderImage = UIImage(named: Constants.Picture.profilePicturePlaceHolder)
+        let processor = RoundCornerImageProcessor(cornerRadius: Self.profileImageWidth / 2)
+        
+        profileImage.kf.indicatorType = .activity
+        profileImage.kf.setImage(
+            with: resource,
+            placeholder: placeHolderImage,
+            options: [.processor(processor)])
     }
 }

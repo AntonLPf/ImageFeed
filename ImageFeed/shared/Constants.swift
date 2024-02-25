@@ -23,6 +23,7 @@ enum Constants {
     struct Picture {
         static let exitButton = "ExitButton"
         static let profilePicture = "ProfilePicture"
+        static let profilePicturePlaceHolder = "ProfilePicturePlaceholder"
     }
     
     struct SegueId {

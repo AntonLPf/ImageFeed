@@ -11,6 +11,6 @@ struct UserResult: Decodable {
     let profileImage: ImageUrl
     
     struct ImageUrl: Decodable {
-        let small: String
+        let medium: String
     }
 }

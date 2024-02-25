@@ -20,7 +20,6 @@ final class ProfileImageService {
     
     private(set) var avatarUrl: String?
     
-    
     func fetchProfileImageURL(_ token: String, username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         ongoingTask?.cancel()
         
@@ -31,7 +30,7 @@ final class ProfileImageService {
         let task = urlSession.objectTask(for: request) { (result: Result<UserResult, Error>) in
             switch result {
             case .success(let userResult):
-                let profileImageUrl = userResult.profileImage.small
+                let profileImageUrl = userResult.profileImage.medium
                 self.avatarUrl = profileImageUrl
                 completion(.success(profileImageUrl))
                 NotificationCenter.default.post(
