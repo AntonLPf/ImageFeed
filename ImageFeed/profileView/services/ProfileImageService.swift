@@ -31,16 +31,17 @@ final class ProfileImageService {
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self else { return }
-
+            
             switch result {
             case .success(let userResult):
-                let profileImageUrl = userResult.profileImage.medium
-                self.avatarUrl = profileImageUrl
-                completion(.success(profileImageUrl))
-                NotificationCenter.default.post(
-                    name: ProfileImageService.didChangeNotification,
-                    object: self,
-                    userInfo: ["URL": profileImageUrl])
+                if let profileImageUrl = userResult.profileImage?.medium {
+                    self.avatarUrl = profileImageUrl
+                    completion(.success(profileImageUrl))
+                    NotificationCenter.default.post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["URL": profileImageUrl])
+                }
             case .failure(let error):
                 ErrorPrinterService.shared.printToConsole(error)
                 completion(.failure(error))

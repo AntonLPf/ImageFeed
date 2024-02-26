@@ -23,7 +23,7 @@ class SplashViewController: UIViewController {
     }()
     
     // MARK: - life cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
@@ -56,6 +56,8 @@ class SplashViewController: UIViewController {
         ])
     }
     
+    // MARK: - methods
+    
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else {
             preconditionFailure("Invalid Configuration")
@@ -63,14 +65,14 @@ class SplashViewController: UIViewController {
         
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: Constants.StoryBoardViewId.tabBarViewController)
-           
+        
         window.rootViewController = tabBarController
     }
     
     private func navigateToAuthScreen() {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         
-        guard 
+        guard
             let authNavigationController = storyboard.instantiateViewController(withIdentifier: "AuthNavigationController") as? AuthNavigationController,
             let authViewController = authNavigationController.viewControllers.first as? AuthViewController
         else {
@@ -81,26 +83,11 @@ class SplashViewController: UIViewController {
         authViewController.delegate = self
         present(authNavigationController, animated: true)
     }
-}
-
-extension SplashViewController: AuthViewControllerDelegate {
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        vc.dismiss(animated: true)
-        UIBlockingProgressHUD.show()
-        self.fetchOAuthToken(code)
-    }
-    
-    func didAuthenticate(_ vc: AuthViewController) {
-
-        guard let token = oauth2Service.token else { return }
-        
-        fetchProfile(token)
-    }
     
     private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async {
-                guard let self = self else {return}
                 switch result {
                 case .success:
                     if let token = self.oauth2Service.token {
@@ -108,12 +95,15 @@ extension SplashViewController: AuthViewControllerDelegate {
                     }
                 case .failure:
                     UIBlockingProgressHUD.dismiss()
-                    break
+                    let alert = UIAlertController(title: "Что-то пошло не так",
+                                                  message: "Не удалось войти в систему",
+                                                  preferredStyle: .alert)
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }
     }
-        
+    
     private func fetchProfile(_ token: String) {
         profileService.fetchProfile(token) { [weak self] result in
             guard let self = self else { return }
@@ -129,9 +119,24 @@ extension SplashViewController: AuthViewControllerDelegate {
                 DispatchQueue.main.async {
                     UIBlockingProgressHUD.dismiss()
                 }
-                #warning("Покажите ошибку получения профиля")
-                break
             }
         }
     }
+}
+
+extension SplashViewController: AuthViewControllerDelegate {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        vc.dismiss(animated: true)
+        UIBlockingProgressHUD.show()
+        self.fetchOAuthToken(code)
+    }
+    
+    func didAuthenticate(_ vc: AuthViewController) {
+        
+        guard let token = oauth2Service.token else { return }
+        
+        fetchProfile(token)
+    }
+    
+    
 }

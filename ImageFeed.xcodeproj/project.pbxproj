@@ -191,11 +191,11 @@
 				3A32CF7B2B5C56A00058B289 /* Font */,
 				3A38400A2B448FC500094252 /* AppDelegate.swift */,
 				3A38400C2B448FC500094252 /* SceneDelegate.swift */,
+				3AF71A082B8BB57C00E1AF00 /* TabBarController.swift */,
 				3A3840102B448FC500094252 /* Main.storyboard */,
 				3A3840132B448FC600094252 /* Assets.xcassets */,
 				3A3840152B448FC600094252 /* LaunchScreen.storyboard */,
 				3A3840182B448FC600094252 /* Info.plist */,
-				3AF71A082B8BB57C00E1AF00 /* TabBarController.swift */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";

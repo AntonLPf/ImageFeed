@@ -37,11 +37,14 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         
-        if lastCode == code { return }
+        guard lastCode != code else { return }
         task?.cancel()
         lastCode = code
         
         guard let request = try? TokenRequest.getToken(code: code).createURLRequest(token: nil) else {
+            let error = NetworkError.invalidRequest
+            ErrorPrinterService.shared.printToConsole(error)
+            completion(.failure(error))
             preconditionFailure("Invalid token request configuration")
         }
         
