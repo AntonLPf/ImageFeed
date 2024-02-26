@@ -50,4 +50,8 @@ enum Constants {
     enum UserDefaultsKey: String {
         case token
     }
+    
+    struct NCNotification {
+        static let profileImageProviderDidChange = "ProfileImageProviderDidChange"
+    }
 }

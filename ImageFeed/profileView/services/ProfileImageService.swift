@@ -12,7 +12,9 @@ final class ProfileImageService {
     static let shared = ProfileImageService()
     private init() {}
     
-    static let didChangeNotification = Notification.Name("ProfileImageProviderDidChange")
+    static let didChangeNotification = Notification.Name(
+        Constants.NCNotification.profileImageProviderDidChange
+    )
     
     private var ongoingTask: URLSessionTask?
     private let urlSession = URLSession.shared
