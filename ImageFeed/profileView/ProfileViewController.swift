@@ -10,19 +10,19 @@ import Kingfisher
 
 class ProfileViewController: UIViewController {
     
-    private var profileImageServiceObserver: NSObjectProtocol?
-    
     private static let profileImageWidth = 70.0
     
+    private var profileImageServiceObserver: NSObjectProtocol?
+
     // MARK: - creating views
     
-    private let profileImage: UIImageView = {
+    private let profileImageView: UIImageView = {
         let profilePicture = UIImage(named: Constants.Picture.profilePicturePlaceHolder)
         let imageView = UIImageView(image: profilePicture)
         imageView.tintColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .clear
-        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = ProfileViewController.profileImageWidth / 2
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
@@ -110,7 +110,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func addSubViews() {
-        containerView.addSubview(profileImage)
+        containerView.addSubview(profileImageView)
         containerView.addSubview(exitButton)
         
         vStack.addArrangedSubview(containerView)
@@ -127,15 +127,15 @@ class ProfileViewController: UIViewController {
             containerView.leadingAnchor.constraint(equalTo: vStack.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: vStack.trailingAnchor),
             
-            profileImage.widthAnchor.constraint(equalToConstant: Self.profileImageWidth),
-            profileImage.topAnchor.constraint(equalTo: containerView.topAnchor),
-            profileImage.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            profileImage.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            profileImageView.widthAnchor.constraint(equalToConstant: Self.profileImageWidth),
+            profileImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            profileImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            profileImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             
             exitButton.widthAnchor.constraint(equalToConstant: 24),
             exitButton.heightAnchor.constraint(equalToConstant: 24),
-            exitButton.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
-            exitButton.leadingAnchor.constraint(greaterThanOrEqualTo: profileImage.trailingAnchor),
+            exitButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
+            exitButton.leadingAnchor.constraint(greaterThanOrEqualTo: profileImageView.trailingAnchor),
             exitButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
             
             vStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 76),
@@ -144,6 +144,8 @@ class ProfileViewController: UIViewController {
         ])
     }
     
+    // MARK: - Methods
+    
     private func updateProfileDetails(_ profile: Profile) {
         nameLabel.text = profile.name
         loginNameLabel.text = profile.loginName
@@ -151,18 +153,13 @@ class ProfileViewController: UIViewController {
     }
     
     private func updateAvatar() {
-        guard 
+        guard
             let profileImageUrl = ProfileImageService.shared.avatarUrl,
             let imageUrl = URL(string: profileImageUrl)
         else { return }
         
         let placeHolderImage = UIImage(named: Constants.Picture.profilePicturePlaceHolder)
-        let processor = RoundCornerImageProcessor(cornerRadius: Self.profileImageWidth / 2)
-        
-        profileImage.kf.indicatorType = .activity
-        profileImage.kf.setImage(
-            with: imageUrl,
-            placeholder: placeHolderImage,
-            options: [.processor(processor)])
+        profileImageView.kf.indicatorType = .activity
+        profileImageView.kf.setImage(with: imageUrl, placeholder: placeHolderImage)
     }
 }
