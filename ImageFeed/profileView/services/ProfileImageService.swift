@@ -27,7 +27,9 @@ final class ProfileImageService {
             preconditionFailure("Invalid token request configuration")
         }
         
-        let task = urlSession.objectTask(for: request) { (result: Result<UserResult, Error>) in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
+            guard let self else { return }
+
             switch result {
             case .success(let userResult):
                 let profileImageUrl = userResult.profileImage.medium

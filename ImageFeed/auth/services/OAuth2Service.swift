@@ -45,7 +45,8 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             preconditionFailure("Invalid token request configuration")
         }
         
-        let task = urlSession.objectTask(for: request) { (result: Result<OAuthTokenResponseBody, Error>) in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self else { return }
             switch result {
             case .success(let token):
                 let bearerAccessToken = token.bearerAccessToken

@@ -12,9 +12,23 @@ class SplashViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     private let oauth2Service: OAuth2ServiceProtocol = OAuth2Service.shared
+    
+    // MARK: - creating views
+    
+    private let logoImageView: UIImageView = {
+        let practicumPicture = UIImage(named: Constants.Picture.practicumLogo)
+        let imageView = UIImageView(image: practicumPicture)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    // MARK: - life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .ypBlack
+        addSubViews()
+        applyConstraints()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -22,8 +36,24 @@ class SplashViewController: UIViewController {
         if let token = oauth2Service.token {
             fetchProfile(token)
         } else {
-            performSegue(withIdentifier: Constants.SegueId.showAuthenticationScreenSegue, sender: nil)
+            navigateToAuthScreen()
         }
+    }
+    
+    // MARK: - assembling
+    
+    private func addSubViews() {
+        view.addSubview(logoImageView)
+    }
+    
+    private func applyConstraints() {
+        NSLayoutConstraint.activate([
+            logoImageView.widthAnchor.constraint(equalToConstant: 76),
+            logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor, multiplier: 1),
+            
+            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
     }
     
     private func switchToTabBarController() {
@@ -38,20 +68,18 @@ class SplashViewController: UIViewController {
     }
     
     private func navigateToAuthScreen() {
-        performSegue(withIdentifier: Constants.SegueId.showAuthenticationScreenSegue, sender: nil)
-    }
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
         
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constants.SegueId.showAuthenticationScreenSegue {
-            if let navigationController = segue.destination as? UINavigationController,
-               let viewController = navigationController.viewControllers[0] as? AuthViewController {
-                viewController.delegate = self
-            } else {
-                preconditionFailure("Failed to prepare for \(Constants.SegueId.showAuthenticationScreenSegue)")
-            }
-        } else {
-            super.prepare(for: segue, sender: sender)
+        guard 
+            let authNavigationController = storyboard.instantiateViewController(withIdentifier: "AuthNavigationController") as? AuthNavigationController,
+            let authViewController = authNavigationController.viewControllers.first as? AuthViewController
+        else {
+            preconditionFailure("Failed to setup AuthViewController")
         }
+        
+        authNavigationController.modalPresentationStyle = .fullScreen
+        authViewController.delegate = self
+        present(authNavigationController, animated: true)
     }
 }
 

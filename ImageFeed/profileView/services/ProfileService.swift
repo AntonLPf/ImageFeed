@@ -25,7 +25,9 @@ final class ProfileService {
             preconditionFailure("Invalid token request configuration")
         }
         
-        let task = urlSession.objectTask(for: request) { (result: Result<ProfileResult, Error>) in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+            guard let self else { return }
+            
             switch result {
             case .success(let profileResult):
                 let profile = self.convert(profileResult)
