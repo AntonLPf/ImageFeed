@@ -62,10 +62,7 @@ class SplashViewController: UIViewController {
         guard let window = UIApplication.shared.windows.first else {
             preconditionFailure("Invalid Configuration")
         }
-        
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-            .instantiateViewController(withIdentifier: Constants.StoryBoardViewId.tabBarViewController)
-        
+        let tabBarController = TabBarController()
         window.rootViewController = tabBarController
     }
     
