@@ -70,15 +70,8 @@ class SplashViewController: UIViewController {
     }
     
     private func navigateToAuthScreen() {
-        let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        
-        guard
-            let authNavigationController = storyboard.instantiateViewController(withIdentifier: "AuthNavigationController") as? AuthNavigationController,
-            let authViewController = authNavigationController.viewControllers.first as? AuthViewController
-        else {
-            preconditionFailure("Failed to setup AuthViewController")
-        }
-        
+        let authViewController = AuthViewController()
+        let authNavigationController = AuthNavigationController(rootViewController: authViewController)
         authNavigationController.modalPresentationStyle = .fullScreen
         authViewController.delegate = self
         present(authNavigationController, animated: true)

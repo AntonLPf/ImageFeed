@@ -15,12 +15,63 @@ protocol AuthViewControllerDelegate: AnyObject {
 class AuthViewController: UIViewController {
     
     weak var delegate: AuthViewControllerDelegate?
+    
+    // MARK: - creating views
+    
+    private lazy var logoImageView: UIImageView = {
+        let image = UIImage(named: Constants.Picture.authScreenLogo)
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private lazy var enterButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .ypWhite
+        button.setTitle("Войти", for: .normal)
+        button.titleLabel?.font = UIFont(name: Constants.Font.ysDisplayBold, size: 17)
+        button.setTitleColor(UIColor(named: Constants.Color.ypBlack), for: .normal)
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        button.layer.cornerRadius = 16
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    // MARK: - life cycle
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupMainView()
+        addSUbViews()
+        applyConstraints()
     }
     
-    @IBAction private func didTapButton() {
+    // MARK: - assembling
+    
+    private func setupMainView() {
+        view.backgroundColor = UIColor(named: Constants.Color.ypBlack)
+    }
+    
+    private func addSUbViews() {
+        view.addSubview(logoImageView)
+        view.addSubview(enterButton)
+    }
+    
+    private func applyConstraints() {
+        NSLayoutConstraint.activate([
+            logoImageView.heightAnchor.constraint(equalToConstant: 60),
+            logoImageView.widthAnchor.constraint(equalToConstant: 60),
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            enterButton.heightAnchor.constraint(equalToConstant: 48),
+            enterButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            enterButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            enterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90)
+            ])
+    }
+    
+    @objc private func didTapButton() {
         showWebView()
     }
     
