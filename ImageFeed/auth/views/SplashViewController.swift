@@ -133,7 +133,10 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     func didAuthenticate(_ vc: AuthViewController) {
         
-        guard let token = oauth2Service.token else { return }
+        guard let token = oauth2Service.token else {
+            vc.dismiss(animated: true)
+            return
+        }
         
         fetchProfile(token)
     }

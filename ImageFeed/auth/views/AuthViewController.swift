@@ -15,21 +15,20 @@ protocol AuthViewControllerDelegate: AnyObject {
 class AuthViewController: UIViewController {
     
     weak var delegate: AuthViewControllerDelegate?
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let segueId = Constants.SegueId.showWebViewSegue
-        if segue.identifier == segueId {
-            guard let webViewViewController = segue.destination as? WebViewViewController else { 
-                preconditionFailure("Failed to prepare for \(segueId)")
-            }
-            webViewViewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
+    @IBAction private func didTapButton() {
+        showWebView()
+    }
+    
+    private func showWebView() {
+        let webViewController = WebViewViewController()
+        webViewController.delegate = self
+        webViewController.modalPresentationStyle = .fullScreen
+        present(webViewController, animated: true)
     }
 }
 

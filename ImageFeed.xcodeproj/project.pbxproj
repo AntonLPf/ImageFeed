@@ -255,8 +255,8 @@
 			isa = PBXGroup;
 			children = (
 				3A1BF11A2B7BAF320073CA61 /* SplashViewController.swift */,
-				3A72FAD42B715F2600B5BD10 /* AuthViewController.swift */,
 				3AF71A0A2B8BD40800E1AF00 /* AuthNavigationController.swift */,
+				3A72FAD42B715F2600B5BD10 /* AuthViewController.swift */,
 				3A72FAD72B7168EE00B5BD10 /* WebViewViewController.swift */,
 			);
 			path = views;

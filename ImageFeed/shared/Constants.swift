@@ -25,6 +25,7 @@ enum Constants {
         static let profilePicture = "ProfilePicture"
         static let profilePicturePlaceHolder = "ProfilePicturePlaceholder"
         static let practicumLogo = "PracticumLogo"
+        static let navBackButton = "nav_back_button"
     }
     
     struct SegueId {
