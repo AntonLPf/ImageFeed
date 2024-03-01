@@ -34,6 +34,7 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let token = oauth2Service.token {
+            UIBlockingProgressHUD.show()
             fetchProfile(token)
         } else {
             navigateToAuthScreen()
@@ -76,6 +77,7 @@ class SplashViewController: UIViewController {
     private func fetchOAuthToken(_ code: String) {
         oauth2Service.fetchOAuthToken(code) { [weak self] result in
             guard let self = self else { return }
+            
             DispatchQueue.main.async {
                 switch result {
                 case .success:
@@ -84,7 +86,12 @@ class SplashViewController: UIViewController {
                     }
                 case .failure:
                     UIBlockingProgressHUD.dismiss()
-                    
+                    let alertModel = AlertModel(
+                        title: "Что-то пошло не так",
+                        message: "Не удалось войти в систему",
+                        buttonText: "OK",
+                        actionHandler: nil)
+                    self.presentedViewController?.presentAlert(model: alertModel)
                 }
             }
         }
@@ -104,6 +111,12 @@ class SplashViewController: UIViewController {
             case .failure:
                 DispatchQueue.main.async {
                     UIBlockingProgressHUD.dismiss()
+                    let model = AlertModel(
+                        title: "Что-то пошло не так",
+                        message: "Не удалось получить данные",
+                        buttonText: "OK",
+                        actionHandler: nil)
+                    self.presentAlert(model: model)
                 }
             }
         }
@@ -121,20 +134,9 @@ extension SplashViewController: AuthViewControllerDelegate {
         
         guard let token = oauth2Service.token else {
             vc.dismiss(animated: true)
-//            showAlert()
             return
         }
         
         fetchProfile(token)
     }
-    
-//    func showAlert() {
-//        let alert = UIAlertController(title: "Что-то пошло не так",
-//                                      message: "Не удалось войти в систему",
-//                                      preferredStyle: .alert)
-//        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-//        alert.addAction(action)
-//        self.present(alert, animated: true, completion: nil)
-//    }
-    
 }
