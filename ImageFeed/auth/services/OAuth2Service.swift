@@ -21,7 +21,13 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     private var lastCode: String?
     private let tokenStorageKey: String
     
-    var token: String?
+    var token: String? {
+        didSet {
+            if let token {
+                saveToStorage(token: token)
+            }
+        }
+    }
     
     private init() {
         self.tokenStorageKey = Constants.UserDefaultsKey.token.rawValue
@@ -55,7 +61,6 @@ final class OAuth2Service: OAuth2ServiceProtocol {
                 let bearerAccessToken = token.bearerAccessToken
                 self.token = bearerAccessToken
                 completion(.success(bearerAccessToken))
-                self.saveToStorage(token: bearerAccessToken)
             case .failure(let error):
                 ErrorPrinterService.shared.printToConsole(error)
                 completion(.failure(error))
