@@ -68,10 +68,9 @@ class SplashViewController: UIViewController {
     
     private func navigateToAuthScreen() {
         let authViewController = AuthViewController()
-        let authNavigationController = AuthNavigationController(rootViewController: authViewController)
-        authNavigationController.modalPresentationStyle = .fullScreen
+        authViewController.modalPresentationStyle = .fullScreen
         authViewController.delegate = self
-        present(authNavigationController, animated: true)
+        present(authViewController, animated: true)
     }
     
     private func fetchOAuthToken(_ code: String) {
@@ -85,10 +84,7 @@ class SplashViewController: UIViewController {
                     }
                 case .failure:
                     UIBlockingProgressHUD.dismiss()
-                    let alert = UIAlertController(title: "Что-то пошло не так",
-                                                  message: "Не удалось войти в систему",
-                                                  preferredStyle: .alert)
-                    self.present(alert, animated: true, completion: nil)
+                    
                 }
             }
         }
@@ -125,11 +121,20 @@ extension SplashViewController: AuthViewControllerDelegate {
         
         guard let token = oauth2Service.token else {
             vc.dismiss(animated: true)
+//            showAlert()
             return
         }
         
         fetchProfile(token)
     }
     
+//    func showAlert() {
+//        let alert = UIAlertController(title: "Что-то пошло не так",
+//                                      message: "Не удалось войти в систему",
+//                                      preferredStyle: .alert)
+//        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+//        alert.addAction(action)
+//        self.present(alert, animated: true, completion: nil)
+//    }
     
 }

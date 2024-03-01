@@ -44,7 +44,6 @@
 		3AF71A042B8B863D00E1AF00 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF71A032B8B863D00E1AF00 /* Kingfisher */; };
 		3AF71A072B8B98AB00E1AF00 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF71A062B8B98AB00E1AF00 /* SwiftKeychainWrapper */; };
 		3AF71A092B8BB57C00E1AF00 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF71A082B8BB57C00E1AF00 /* TabBarController.swift */; };
-		3AF71A0B2B8BD40800E1AF00 /* AuthNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF71A0A2B8BD40800E1AF00 /* AuthNavigationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,7 +83,6 @@
 		3ACFD5962B7A572B0019B543 /* TokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRequest.swift; sourceTree = "<group>"; };
 		3ACFD5992B7A6EF60019B543 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		3AF71A082B8BB57C00E1AF00 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		3AF71A0A2B8BD40800E1AF00 /* AuthNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,7 +253,6 @@
 			isa = PBXGroup;
 			children = (
 				3A1BF11A2B7BAF320073CA61 /* SplashViewController.swift */,
-				3AF71A0A2B8BD40800E1AF00 /* AuthNavigationController.swift */,
 				3A72FAD42B715F2600B5BD10 /* AuthViewController.swift */,
 				3A72FAD72B7168EE00B5BD10 /* WebViewViewController.swift */,
 			);
@@ -382,7 +379,6 @@
 				3A1B6A532B45ED7C0000F349 /* ImagesListCell.swift in Sources */,
 				3A72FAD52B715F2600B5BD10 /* AuthViewController.swift in Sources */,
 				3ACFD58A2B7A37440019B543 /* NetworkError.swift in Sources */,
-				3AF71A0B2B8BD40800E1AF00 /* AuthNavigationController.swift in Sources */,
 				3A4CA15C2B692890007A0D43 /* Constants.swift in Sources */,
 				3ACFD5882B7A370D0019B543 /* RequestType.swift in Sources */,
 			);
