@@ -10,6 +10,8 @@ import UIKit
 class ImagesListViewController: UIViewController {
     
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
+    private let imagesListService = ImagesListService.shared
+    private let oauthService = OAuth2Service.shared
     
     @IBOutlet private var tableView: UITableView!
     
@@ -19,7 +21,27 @@ class ImagesListViewController: UIViewController {
         super.viewDidLoad()
         
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        
+        if let token = oauthService.token {
+            imagesListService.fetchPhotosNextPage(token) { result in
+                switch result {
+                case .success(let images):
+                    print(images.count)
+                    print(self.imagesListService.photos.count)
+                    self.imagesListService.fetchPhotosNextPage(token) { result in
+                        switch result {
+                        case .success(let images):
+                            print(images.count)
+                            print(self.imagesListService.photos.count)
+                        case .failure(let failure):
+                            print("Fail2")
+                        }
+                    }
+                case .failure(let failure):
+                    print("Fail1")
+                }
+            }
+            
+        }
     }
     
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
@@ -95,6 +117,10 @@ extension ImagesListViewController: UITableViewDelegate {
         
         return cellHeight
         
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        guard indexPath.row + 1 == photos.count else { return }
     }
     
 }

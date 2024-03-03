@@ -47,6 +47,8 @@ enum Constants {
         static let accessScope = "public+read_user+write_likes"
         static let defaultBaseUrl = URL(string: "https://api.unsplash.com")
         static let authorizingUrlString = "https://unsplash.com/oauth/authorize"
+        
+        static let numberOfImagesPerPage = 10
     }
     
     enum UserDefaultsKey: String {
@@ -55,5 +57,6 @@ enum Constants {
     
     struct NCNotification {
         static let profileImageProviderDidChange = "ProfileImageProviderDidChange"
+        static let imagesListServiceDidChange = "ImagesListServiceDidChange"
     }
 }

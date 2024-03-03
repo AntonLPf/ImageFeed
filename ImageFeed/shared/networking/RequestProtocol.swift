@@ -63,7 +63,10 @@ extension RequestProtocol {
         }
         
         if isAuthorizationNeeded {
-            guard let token else { throw NetworkError.noToken }
+            guard let token else {
+                assertionFailure("Token required")
+                throw NetworkError.noToken
+            }
             urlRequest.setValue("\(token)", forHTTPHeaderField: "Authorization")
         }
         
