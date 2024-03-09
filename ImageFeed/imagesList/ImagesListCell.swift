@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ImagesListCell: UITableViewCell {
     
@@ -14,15 +15,25 @@ class ImagesListCell: UITableViewCell {
     @IBOutlet var cellImage: UIImageView!
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var dateLabel: UILabel!
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        resetCell()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
-
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        resetCell()
+        cellImage.kf.cancelDownloadTask()
+    }
+    
+    private func resetCell() {
+        likeButton.isHidden = true
+        dateLabel.text = ""
+    }
 }
