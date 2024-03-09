@@ -288,6 +288,13 @@
 			path = progressHUD;
 			sourceTree = "<group>";
 		};
+		3AA741E32B9C6E8900773E3E /* views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
 		3ACFD5832B7A36D00019B543 /* networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,6 +331,7 @@
 		3AF71A0D2B8CE23100E1AF00 /* imagesList */ = {
 			isa = PBXGroup;
 			children = (
+				3AA741E32B9C6E8900773E3E /* views */,
 				3A6CCD992B94E66300E8773F /* requests */,
 				3A6CCD942B94D9F800E8773F /* models */,
 				3A6CCD912B94D97200E8773F /* services */,

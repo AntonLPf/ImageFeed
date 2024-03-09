@@ -14,25 +14,56 @@ class ImagesListViewController: UIViewController {
     private let imagesListService = ImagesListService.shared
     private let oauthService = OAuth2Service.shared
     
+    private var imageListServiceObserver: NSObjectProtocol?
+    
     @IBOutlet private var tableView: UITableView!
+    
+    private var photos: [Photo] = []
         
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        
+        imageListServiceObserver = NotificationCenter.default.addObserver(
+            forName: ImagesListService.didChangeNotification,
+            object: nil,
+            queue: .main,
+            using: { [weak self] _ in
+                guard let self = self else { return }
+                self.updateTableViewAnimated()
+            })
+        
         self.fetchMorePhotos()
     }
     
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+    private lazy var placeHolderView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .placeHolderGray
+
+        let placeHolderImage = UIImage(named: Constants.Picture.imagePlaceHolder)
+        let imageView = UIImageView(image: placeHolderImage)
+        view.addSubview(imageView)
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+        return view
+    }()
+    
+    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         cell.cellImage.kf.indicatorType = .activity
         let photoIndex = indexPath.row
         
-        guard imagesListService.photos.count > photoIndex else { return }
+        guard photos.count > photoIndex else { return }
         
-        let placeHolderImage = UIImage(named: Constants.Picture.profilePicturePlaceHolder)
-        let photo = imagesListService.photos[photoIndex]
+        let photo = photos[photoIndex]
         let imageUrlString = photo.thumbImageURL
         let imageUrl = URL(string: imageUrlString)
-        cell.cellImage.kf.setImage(with: imageUrl, placeholder: placeHolderImage, options: nil) { _ in
+        cell.cellImage.kf.setImage(with: imageUrl, placeholder: placeHolderView, options: nil) { _ in
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
             
             if let date = photo.createdAt {
@@ -70,12 +101,9 @@ class ImagesListViewController: UIViewController {
                 
         imagesListService.fetchPhotosNextPage(token) { result in
             switch result {
-            case .success(let images):
-                debugPrint("Loaded photos number: \(images.count)")
-                debugPrint(self.imagesListService.photos.count)
-                self.tableView.reloadData()
+            case .success(let photos):
+                debugPrint("Loaded photos number: \(photos.count)")
             case .failure(let failure):
-                debugPrint("Failed to load more photos")
                 ErrorPrinterService.shared.printToConsole(failure)
             }
         }
@@ -85,7 +113,7 @@ class ImagesListViewController: UIViewController {
 extension ImagesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        imagesListService.photos.count
+        photos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -112,12 +140,12 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard imagesListService.photos.count > indexPath.row else { return 0 }
+        guard photos.count > indexPath.row else { return 0 }
 
         let imageInsets = UIEdgeInsets(top: 4, left: 16, bottom: 4, right: 16)
         let imageViewWidth = tableView.bounds.width - imageInsets.left - imageInsets.right
-        let imageWidth = imagesListService.photos[indexPath.row].size.width
-        let imageHeight = imagesListService.photos[indexPath.row].size.height
+        let imageWidth = photos[indexPath.row].size.width
+        let imageHeight = photos[indexPath.row].size.height
         let scale = imageViewWidth / imageWidth
         let cellHeight = imageHeight * scale + imageInsets.top + imageInsets.bottom
         
@@ -125,8 +153,25 @@ extension ImagesListViewController: UITableViewDelegate {
         
     }
     
+    func updateTableViewAnimated() {
+        let oldCount = photos.count
+        let newCount = imagesListService.photos.count
+        photos = imagesListService.photos
+        if oldCount != newCount {
+            tableView.performBatchUpdates {
+                let indexPaths = (oldCount..<newCount).map { i in
+                    IndexPath(row: i, section: 0)
+                }
+                tableView.insertRows(at: indexPaths, with: .automatic)
+            } completion: { _ in }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        guard indexPath.row + 1 == photos.count else { return }
+        guard indexPath.row + 1 == photos.count else { return }
+        fetchMorePhotos()
     }
     
 }
+
+extension UIView: Placeholder {}
