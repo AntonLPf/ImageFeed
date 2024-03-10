@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SetLikeRequest: RequestProtocol {
+enum AddLikeRequest: RequestProtocol {
     case setLike(imageId: String)
     
     var path: String {

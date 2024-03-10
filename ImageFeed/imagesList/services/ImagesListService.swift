@@ -38,7 +38,7 @@ final class ImagesListService {
             
             switch result {
             case .success(let photoResult):
-                let loadedPhotos = convertToPhotos(photoResult)
+                let loadedPhotos = photoResult.map { self.convertToPhoto($0) }
                 DispatchQueue.main.async {
                     self.photos.append(contentsOf: loadedPhotos)
                     self.lastLoadedPage = nextPage
@@ -58,20 +58,54 @@ final class ImagesListService {
         
     }
     
-    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+    func changeLike(token: String, photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        let request: RequestProtocol = isLike ?
+        AddLikeRequest.setLike(imageId: photoId) :
+        RemoveLikeRequest.removeLike(imageId: photoId)
         
+        guard let request = try? request.createURLRequest(token: token) else {
+            preconditionFailure("Invalid token request configuration")
+        }
+        
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<PhotoResult, Error>) in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let photoResult):
+                let loadedPhoto = convertToPhoto(photoResult)
+                if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                    let photo = self.photos[index]
+                    let newPhoto = Photo(
+                        id: photo.id,
+                        size: photo.size,
+                        createdAt: photo.createdAt,
+                        welcomeDescription: photo.welcomeDescription,
+                        thumbImageURL: photo.thumbImageURL,
+                        largeImageURL: photo.largeImageURL,
+                        isLiked: !photo.isLiked
+                    )
+                    DispatchQueue.main.async {
+                        self.photos[index] = newPhoto
+                    }
+                }
+            case .failure(let error):
+                ErrorPrinterService.shared.printToConsole(error)
+                completion(.failure(error))
+            }
+            
+        }
+        self.ongoingTask = task
+        task.resume()
     }
     
-    private func convertToPhotos(_ photoResult: [PhotoResult]) -> [Photo] {
-        photoResult.map { photoResult in
-            Photo(id: photoResult.id,
-                  size: CGSize(width: photoResult.width,
-                               height: photoResult.height),
-                  createdAt: ISO8601DateFormatter().date(from: photoResult.createdAt),
-                  welcomeDescription: photoResult.description,
-                  thumbImageURL: photoResult.urls.thumb,
-                  largeImageURL: photoResult.urls.full,
-                  isLiked: photoResult.likedByUser)
-        }
+    private func convertToPhoto(_ photoResult: PhotoResult) -> Photo {
+        Photo(id: photoResult.id,
+              size: CGSize(width: photoResult.width,
+                           height: photoResult.height),
+              createdAt: ISO8601DateFormatter().date(from: photoResult.createdAt),
+              welcomeDescription: photoResult.description,
+              thumbImageURL: photoResult.urls.thumb,
+              largeImageURL: photoResult.urls.full,
+              isLiked: photoResult.likedByUser)
     }
 }
