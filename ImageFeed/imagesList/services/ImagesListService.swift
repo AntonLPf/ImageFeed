@@ -58,6 +58,10 @@ final class ImagesListService {
         
     }
     
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        
+    }
+    
     private func convertToPhotos(_ photoResult: [PhotoResult]) -> [Photo] {
         photoResult.map { photoResult in
             Photo(id: photoResult.id,
