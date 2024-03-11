@@ -53,7 +53,7 @@
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="LikePressed"/>
                                                     <connections>
-                                                        <action selector="likeButtonTapped" destination="y0r-bp-G5v" eventType="touchUpInside" id="P8j-zX-pOd"/>
+                                                        <action selector="likeButtonClicked" destination="y0r-bp-G5v" eventType="touchUpInside" id="I8O-2s-qXF"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

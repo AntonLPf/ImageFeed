@@ -63,15 +63,14 @@ class ImagesListViewController: UIViewController {
         let photo = photos[photoIndex]
         let imageUrlString = photo.thumbImageURL
         let imageUrl = URL(string: imageUrlString)
+        cell.delegate = self
         cell.cellImage.kf.setImage(with: imageUrl, placeholder: placeHolderView, options: nil) { _ in
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
             
             if let date = photo.createdAt {
                 cell.dateLabel.text = self.dateFormatter.string(from: date)
             }
-            
-            let likeImageName = photo.isLiked ? "LikePressed" : "LikeUnPressed"
-            cell.likeButton.imageView?.image = UIImage(named: likeImageName)
+            cell.setIsLiked(to: photo.isLiked)
             cell.likeButton.isHidden = false
         }
     }
@@ -172,6 +171,33 @@ extension ImagesListViewController: UITableViewDelegate {
         fetchMorePhotos()
     }
     
+}
+
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard 
+            let indexPath = tableView.indexPath(for: cell),
+            let token = oauthService.token
+        else {
+            assertionFailure("Could not configure CellDidTapLike method")
+            return
+        }
+        
+        let photo = photos[indexPath.row]
+        let setLikeTo = !photo.isLiked
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(token: token, photoId: photo.id, isLike: setLikeTo) { result in
+            switch result {
+            case .success:
+                self.photos = self.imagesListService.photos
+                cell.setIsLiked(to: self.photos[indexPath.row].isLiked)
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let failure):
+                UIBlockingProgressHUD.dismiss()
+                ErrorPrinterService.shared.printToConsole(failure)
+            }
+        }
+    }
 }
 
 extension UIView: Placeholder {}

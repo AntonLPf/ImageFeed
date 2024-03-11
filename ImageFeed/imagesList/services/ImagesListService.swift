@@ -58,22 +58,22 @@ final class ImagesListService {
         
     }
     
-    func changeLike(token: String, photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+    func changeLike(token: String, photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool, Error>) -> Void) {
         let request: RequestProtocol = isLike ?
         AddLikeRequest.setLike(imageId: photoId) :
         RemoveLikeRequest.removeLike(imageId: photoId)
         
         guard let request = try? request.createURLRequest(token: token) else {
-            preconditionFailure("Invalid token request configuration")
+            assertionFailure("Invalid token request configuration")
+            return
         }
-        
-        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<PhotoResult, Error>) in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<LikeResult, Error>) in
             guard let self else { return }
             
             switch result {
-            case .success(let photoResult):
-                let loadedPhoto = convertToPhoto(photoResult)
-                if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+            case .success(let likeResult):
+                let loadedPhoto = convertToPhoto(likeResult.photo)
+                if let index = self.photos.firstIndex(where: { $0.id == loadedPhoto.id }) {
                     let photo = self.photos[index]
                     let newPhoto = Photo(
                         id: photo.id,
@@ -82,10 +82,11 @@ final class ImagesListService {
                         welcomeDescription: photo.welcomeDescription,
                         thumbImageURL: photo.thumbImageURL,
                         largeImageURL: photo.largeImageURL,
-                        isLiked: !photo.isLiked
+                        isLiked: loadedPhoto.isLiked
                     )
                     DispatchQueue.main.async {
                         self.photos[index] = newPhoto
+                        completion(.success(newPhoto.isLiked))
                     }
                 }
             case .failure(let error):
@@ -94,7 +95,6 @@ final class ImagesListService {
             }
             
         }
-        self.ongoingTask = task
         task.resume()
     }
     

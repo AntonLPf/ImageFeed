@@ -8,6 +8,10 @@
 import UIKit
 import Kingfisher
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
+}
+
 class ImagesListCell: UITableViewCell {
     
     static let reuseIdentifier = "ImagesListCell"
@@ -16,7 +20,7 @@ class ImagesListCell: UITableViewCell {
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var dateLabel: UILabel!
     
-    var photo: Photo?
+    weak var delegate: ImagesListCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,26 +38,13 @@ class ImagesListCell: UITableViewCell {
         cellImage.kf.cancelDownloadTask()
     }
     
-    @IBAction func likeButtonTapped() {
-        guard let photo else { return }
-        
-        let oauthService = OAuth2Service.shared
-        guard let token = oauthService.token else { return }
-        let imageListService = ImagesListService.shared
-        
-        let setLikeTo = !photo.isLiked
-        
-        imageListService.changeLike(token: token, photoId: photo.id, isLike: setLikeTo) { result in
-            
-            switch result {
-            case .success(let success):
-                
-                
-            case .failure(let failure):
-                
-            }
-            
-        }
+    @IBAction private func likeButtonClicked() {
+        delegate?.imageListCellDidTapLike(self)
+    }
+    
+    func setIsLiked(to state: Bool) {
+        let likeImageName = state ? "LikePressed" : "LikeUnPressed"
+        likeButton.imageView?.image = UIImage(named: likeImageName)
     }
     
     private func resetCell() {
