@@ -98,6 +98,12 @@ final class ImagesListService {
         task.resume()
     }
     
+    func reset() {
+        ongoingTask = nil
+        photos = []
+        lastLoadedPage = nil
+    }
+    
     private func convertToPhoto(_ photoResult: PhotoResult) -> Photo {
         Photo(id: photoResult.id,
               size: CGSize(width: photoResult.width,

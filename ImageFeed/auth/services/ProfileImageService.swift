@@ -50,4 +50,9 @@ final class ProfileImageService {
         self.ongoingTask = task
         task.resume()
     }
+    
+    func reset() {
+        ongoingTask = nil
+        avatarUrl = nil
+    }
 }

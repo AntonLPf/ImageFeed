@@ -42,6 +42,11 @@ final class ProfileService {
         task.resume()
     }
     
+    func reset() {
+        ongoingTask = nil
+        profile = nil
+    }
+    
     private func convert(_ profileResult: ProfileResult) -> Profile {
         let username = profileResult.username
         var name = profileResult.firstName ?? ""

@@ -77,4 +77,11 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         }
         debugPrint(">>> OauthToken Saved to Storage")
     }
+    
+    func removeTokenAndReset() {
+        task = nil
+        lastCode = nil
+        token = nil
+        KeychainWrapper.standard.removeObject(forKey: tokenStorageKey)
+    }
 }

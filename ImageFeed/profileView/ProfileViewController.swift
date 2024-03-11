@@ -10,6 +10,8 @@ import Kingfisher
 
 class ProfileViewController: UIViewController {
     
+    private let profileLogoutService = ProfileLogoutService.shared
+    
     private static let profileImageWidth = 70.0
     
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -26,11 +28,12 @@ class ProfileViewController: UIViewController {
         return imageView
     }()
     
-    private let exitButton: UIButton = {
+    private lazy var exitButton: UIButton = {
         let button = UIButton(type: .custom)
         button.titleLabel?.text = ""
         let profilePicture = UIImage(named: Constants.Picture.exitButton)
         button.setImage(profilePicture, for: .normal)
+        button.addTarget(self, action: #selector(didExitButtonTap), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -144,7 +147,22 @@ class ProfileViewController: UIViewController {
         ])
     }
     
+    // MARK: - actions
+    
+    @objc private func didExitButtonTap() {
+        profileLogoutService.logout()
+        gotoSplashScreen()
+    }
+    
     // MARK: - Methods
+    
+    private func gotoSplashScreen() {
+        guard let window = UIApplication.shared.windows.first else {
+            preconditionFailure("Invalid Configuration")
+        }
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
+    }
     
     private func updateProfileDetails(_ profile: Profile) {
         nameLabel.text = profile.name
