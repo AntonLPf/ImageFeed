@@ -89,8 +89,11 @@ class SplashViewController: UIViewController {
                     let alertModel = AlertModel(
                         title: "Что-то пошло не так",
                         message: "Не удалось войти в систему",
-                        buttonText: "OK",
-                        actionHandler: nil)
+                        buttons: [
+                            AlertModel.Button(
+                                buttonText: "OK", 
+                                actionHandler: nil)
+                        ])
                     self.presentedViewController?.presentAlert(model: alertModel)
                 }
             }
@@ -114,8 +117,11 @@ class SplashViewController: UIViewController {
                     let model = AlertModel(
                         title: "Что-то пошло не так",
                         message: "Не удалось получить данные",
-                        buttonText: "OK",
-                        actionHandler: nil)
+                        buttons: [
+                            AlertModel.Button(
+                                buttonText: "OK",
+                                actionHandler: nil)
+                        ])
                     self.presentAlert(model: model)
                 }
             }

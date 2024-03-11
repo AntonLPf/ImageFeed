@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SingleImageViewController: UIViewController {
     
@@ -15,13 +16,13 @@ class SingleImageViewController: UIViewController {
     
     @IBOutlet private var imageView: UIImageView?
     
-    var image: UIImage? {
+    var imageUrl: URL? {
         didSet {
             guard isViewLoaded else { return }
             configureImageView()
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let shareButton {
@@ -38,7 +39,7 @@ class SingleImageViewController: UIViewController {
     }
     
     @IBAction private func didTapShareButton(_ sender: Any) {
-        guard let image else { return }
+        guard let image = imageView?.image else { return }
         let share = UIActivityViewController(
             activityItems: [image],
             applicationActivities: nil
@@ -47,10 +48,37 @@ class SingleImageViewController: UIViewController {
     }
     
     private func configureImageView() {
-        if let imageView, let image {
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
+        if let imageView {
+            UIBlockingProgressHUD.show()
+            imageView.kf.setImage(with: imageUrl) { [weak self] result in
+                guard let self = self else { return }
+                UIBlockingProgressHUD.dismiss()
+
+                switch result {
+                case .success(let imageResult):
+                    self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+                case .failure:
+                    self.showAlert()
+                }
+            }
         }
+    }
+    
+    private func showAlert() {
+        let alertModel = AlertModel(
+            title: "Что-то пошло не так",
+            message: "Попробовать ещё раз?",
+            buttons: [
+                AlertModel.Button(
+                    buttonText: "Не надо",
+                    actionHandler: nil),
+                AlertModel.Button(
+                    buttonText: "Повторить",
+                    actionHandler: { _ in
+                        self.configureImageView()
+                    })
+            ])
+        self.presentAlert(model: alertModel)
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {

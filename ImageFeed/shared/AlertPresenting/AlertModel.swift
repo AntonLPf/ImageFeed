@@ -10,6 +10,10 @@ import UIKit
 struct AlertModel {
     let title: String
     let message: String
-    let buttonText: String
-    let actionHandler: ((_: UIAlertAction) -> Void)?
+    let buttons: [Button]
+    
+    struct Button {
+        let buttonText: String
+        let actionHandler: ((_: UIAlertAction) -> Void)?
+    }
 }

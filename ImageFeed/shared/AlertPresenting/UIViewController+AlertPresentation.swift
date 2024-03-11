@@ -12,8 +12,16 @@ extension UIViewController {
         let alert = UIAlertController(title: model.title,
                                       message: model.message,
                                       preferredStyle: .alert)
-        let action = UIAlertAction(title: model.buttonText, style: .default, handler: model.actionHandler)
-        alert.addAction(action)
+        if model.buttons.isEmpty {
+            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(action)
+        } else {
+            for button in model.buttons {
+                let action = UIAlertAction(title: button.buttonText, style: .default, handler: button.actionHandler)
+                alert.addAction(action)
+            }
+        }
+        
         self.present(alert, animated: true, completion: nil)
     }
 }
