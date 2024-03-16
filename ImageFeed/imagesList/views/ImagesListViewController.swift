@@ -65,10 +65,13 @@ class ImagesListViewController: UIViewController {
         let imageUrl = URL(string: imageUrlString)
         cell.delegate = self
         cell.cellImage.kf.setImage(with: imageUrl, placeholder: placeHolderView, options: nil) { _ in
+            cell.cellImage.contentMode = .scaleAspectFill
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
             
             if let date = photo.createdAt {
                 cell.dateLabel.text = self.dateFormatter.string(from: date)
+            } else {
+                cell.dateLabel.text = ""
             }
             cell.setIsLiked(to: photo.isLiked)
             cell.likeButton.isHidden = false
@@ -105,6 +108,20 @@ class ImagesListViewController: UIViewController {
             case .failure(let failure):
                 ErrorPrinterService.shared.printToConsole(failure)
             }
+        }
+    }
+    
+    private func updateTableViewAnimated() {
+        let oldCount = photos.count
+        let newCount = imagesListService.photos.count
+        photos = imagesListService.photos
+        if oldCount != newCount {
+            tableView.performBatchUpdates {
+                let indexPaths = (oldCount..<newCount).map { i in
+                    IndexPath(row: i, section: 0)
+                }
+                tableView.insertRows(at: indexPaths, with: .automatic)
+            } completion: { _ in }
         }
     }
 }
@@ -150,20 +167,6 @@ extension ImagesListViewController: UITableViewDelegate {
         
         return cellHeight
         
-    }
-    
-    func updateTableViewAnimated() {
-        let oldCount = photos.count
-        let newCount = imagesListService.photos.count
-        photos = imagesListService.photos
-        if oldCount != newCount {
-            tableView.performBatchUpdates {
-                let indexPaths = (oldCount..<newCount).map { i in
-                    IndexPath(row: i, section: 0)
-                }
-                tableView.insertRows(at: indexPaths, with: .automatic)
-            } completion: { _ in }
-        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

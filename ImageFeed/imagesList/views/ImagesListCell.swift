@@ -50,5 +50,6 @@ class ImagesListCell: UITableViewCell {
     private func resetCell() {
         likeButton.isHidden = true
         dateLabel.text = ""
+        cellImage.contentMode = .center
     }
 }

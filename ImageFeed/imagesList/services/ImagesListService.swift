@@ -25,6 +25,9 @@ final class ImagesListService {
         
     func fetchPhotosNextPage(_ token: String,_ completion: @escaping (Result<[Photo], Error>) -> Void) {
         ongoingTask?.cancel()
+        
+        guard ongoingTask == nil else { return }
+        
         let nextPage = (lastLoadedPage ?? 0) + 1
         let perPage = Constants.SplashApi.numberOfImagesPerPage
         let request = ImageListRequest.getImages(page: nextPage, perPage: perPage)
@@ -42,20 +45,22 @@ final class ImagesListService {
                 DispatchQueue.main.async {
                     self.photos.append(contentsOf: loadedPhotos)
                     self.lastLoadedPage = nextPage
+                    self.ongoingTask = nil
                     completion(.success(loadedPhotos))
+                    
                     NotificationCenter.default.post(
                         name: ImagesListService.didChangeNotification,
                         object: self,
                         userInfo: [:])
                 }
             case .failure(let error):
+                self.ongoingTask = nil
                 ErrorPrinterService.shared.printToConsole(error)
                 completion(.failure(error))
             }
         }
         self.ongoingTask = task
         task.resume()
-        
     }
     
     func changeLike(token: String, photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool, Error>) -> Void) {
