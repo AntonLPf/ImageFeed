@@ -102,22 +102,6 @@
             </objects>
             <point key="canvasLocation" x="872.46376811594212" y="3.3482142857142856"/>
         </scene>
-        <!--Single Image View Controller-->
-        <scene sceneID="mni-2T-Op7">
-            <objects>
-                <viewController storyboardIdentifier="SingleImageViewController" modalPresentationStyle="fullScreen" id="LlA-ER-9gI" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gv3-bX-ezl">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="Cfa-SG-53v"/>
-                        <color key="backgroundColor" name="YPBlack"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="GIb-Rh-8A9"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Lfr-cc-LAz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1771.0144927536232" y="3.3482142857142856"/>
-        </scene>
     </scenes>
     <resources>
         <image name="ImagePlaceHolder" width="83" height="75"/>

@@ -13,6 +13,13 @@ class SingleImageViewController: UIViewController {
     static private let shareButtonWidth: CGFloat = 51
     static private let backButtonWidth: CGFloat = 48
     
+    var imageUrl: URL? {
+        didSet {
+            guard isViewLoaded else { return }
+            configureImageView()
+        }
+    }
+    
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.contentMode = .scaleToFill
@@ -25,8 +32,8 @@ class SingleImageViewController: UIViewController {
     
     private lazy var imageView: UIImageView = {
         let image = UIImage(named: Constants.Picture.imagePlaceHolder)
-        let imageView = UIImageView(image: image)
-        imageView.backgroundColor = UIColor(named: Constants.Color.ypBlack)
+        let imageView = UIImageView()
+        imageView.image = image
         imageView.contentMode = .center
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -57,17 +64,11 @@ class SingleImageViewController: UIViewController {
 
         return button
     }()
-    
-    var imageUrl: URL? {
-        didSet {
-            guard isViewLoaded else { return }
-            configureImageView()
-        }
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.delegate = self
+        view.backgroundColor = UIColor(named: Constants.Color.ypBlack)
         addSubViews()
         applyConstraints()
         configureImageView()
