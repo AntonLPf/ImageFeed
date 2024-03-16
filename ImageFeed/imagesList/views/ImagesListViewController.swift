@@ -141,8 +141,8 @@ extension ImagesListViewController: UITableViewDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         if let vc = storyboard.instantiateViewController(withIdentifier: "SingleImageViewController") as? SingleImageViewController {
             
-            let url = URL(string: self.photos[indexPath.row].largeImageURL)
             vc.modalPresentationStyle = .fullScreen
+            let url = URL(string: self.photos[indexPath.row].largeImageURL)
             vc.imageUrl = url
             present(vc, animated: true)
         }

@@ -13,9 +13,25 @@ class SingleImageViewController: UIViewController {
     static private let shareButtonWidth: CGFloat = 51
     static private let backButtonWidth: CGFloat = 48
     
-    @IBOutlet private weak var scrollView: UIScrollView?
+    private lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.contentMode = .scaleToFill
+        view.minimumZoomScale = 0.1
+        view.maximumZoomScale = 1.25
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
-    @IBOutlet private var imageView: UIImageView?
+    private lazy var imageView: UIImageView = {
+        let image = UIImage(named: Constants.Picture.imagePlaceHolder)
+        let imageView = UIImageView(image: image)
+        imageView.backgroundColor = UIColor(named: Constants.Color.ypBlack)
+        imageView.contentMode = .center
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
     private lazy var shareButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -51,18 +67,17 @@ class SingleImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        scrollView.delegate = self
         addSubViews()
         applyConstraints()
-        
-        scrollView?.minimumZoomScale = 0.1
-        scrollView?.maximumZoomScale = 1.25
         configureImageView()
     }
     
     private func addSubViews() {
+        view.addSubview(scrollView)
         view.addSubview(shareButton)
         view.addSubview(backButton)
+        scrollView.addSubview(imageView)
     }
     
     private func applyConstraints() {
@@ -75,7 +90,17 @@ class SingleImageViewController: UIViewController {
             backButton.widthAnchor.constraint(equalToConstant: Self.backButtonWidth),
             backButton.heightAnchor.constraint(equalToConstant: Self.backButtonWidth),
             backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8)
+            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            
+            imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
     
@@ -84,7 +109,7 @@ class SingleImageViewController: UIViewController {
     }
     
     @objc private func didTapShareButton(_ sender: Any) {
-        guard let image = imageView?.image else { return }
+        guard let image = imageView.image else { return }
         let share = UIActivityViewController(
             activityItems: [image],
             applicationActivities: nil
@@ -93,18 +118,17 @@ class SingleImageViewController: UIViewController {
     }
     
     private func configureImageView() {
-        if let imageView {
-            UIBlockingProgressHUD.show()
-            imageView.kf.setImage(with: imageUrl) { [weak self] result in
-                guard let self = self else { return }
-                UIBlockingProgressHUD.dismiss()
+        UIBlockingProgressHUD.show()
+        imageView.kf.setImage(with: imageUrl) { [weak self] result in
+            guard let self = self else { return }
+            UIBlockingProgressHUD.dismiss()
 
-                switch result {
-                case .success(let imageResult):
-                    self.rescaleAndCenterImageInScrollView(image: imageResult.image)
-                case .failure:
-                    self.showAlert()
-                }
+            switch result {
+            case .success(let imageResult):
+                self.imageView.contentMode = .scaleAspectFit
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                self.showAlert()
             }
         }
     }
@@ -127,8 +151,6 @@ class SingleImageViewController: UIViewController {
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
-        guard let scrollView else { return }
-        
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()

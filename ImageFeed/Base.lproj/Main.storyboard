@@ -109,41 +109,10 @@
                     <view key="view" contentMode="scaleToFill" id="gv3-bX-ezl">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FjI-oz-FsG">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="vgv-sh-Erk">
-                                        <rect key="frame" x="0.0" y="0.0" width="1200" height="750"/>
-                                    </imageView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="vgv-sh-Erk" secondAttribute="bottom" id="Lcy-Gm-cNv"/>
-                                    <constraint firstAttribute="trailing" secondItem="vgv-sh-Erk" secondAttribute="trailing" id="TTZ-1L-IA7"/>
-                                    <constraint firstItem="vgv-sh-Erk" firstAttribute="top" secondItem="FjI-oz-FsG" secondAttribute="top" id="bgc-4y-erd"/>
-                                    <constraint firstItem="vgv-sh-Erk" firstAttribute="leading" secondItem="FjI-oz-FsG" secondAttribute="leading" id="hP4-Jg-APA"/>
-                                </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="i08-Kv-6Dh"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="uEB-76-O1P"/>
-                                <connections>
-                                    <outlet property="delegate" destination="LlA-ER-9gI" id="4Ns-gK-lFz"/>
-                                </connections>
-                            </scrollView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Cfa-SG-53v"/>
                         <color key="backgroundColor" name="YPBlack"/>
-                        <constraints>
-                            <constraint firstItem="FjI-oz-FsG" firstAttribute="top" secondItem="gv3-bX-ezl" secondAttribute="top" id="POP-me-Hwv"/>
-                            <constraint firstItem="Cfa-SG-53v" firstAttribute="trailing" secondItem="FjI-oz-FsG" secondAttribute="trailing" id="Yby-AF-h8m"/>
-                            <constraint firstAttribute="bottom" secondItem="FjI-oz-FsG" secondAttribute="bottom" id="eGU-Us-oJq"/>
-                            <constraint firstItem="FjI-oz-FsG" firstAttribute="leading" secondItem="Cfa-SG-53v" secondAttribute="leading" id="jEz-sA-vgp"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="GIb-Rh-8A9"/>
-                    <connections>
-                        <outlet property="imageView" destination="vgv-sh-Erk" id="9TV-Cb-pSH"/>
-                        <outlet property="scrollView" destination="FjI-oz-FsG" id="k47-T2-M8g"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lfr-cc-LAz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -151,7 +120,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="0" width="1200" height="750"/>
         <image name="ImagePlaceHolder" width="83" height="75"/>
         <image name="LikePressed" width="42" height="42"/>
         <image name="tab_editorial_active" width="30" height="30"/>
