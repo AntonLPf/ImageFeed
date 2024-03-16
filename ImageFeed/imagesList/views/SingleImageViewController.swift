@@ -11,6 +11,7 @@ import Kingfisher
 class SingleImageViewController: UIViewController {
     
     static private let shareButtonWidth: CGFloat = 51
+    static private let backButtonWidth: CGFloat = 48
     
     @IBOutlet private weak var scrollView: UIScrollView?
     
@@ -26,6 +27,18 @@ class SingleImageViewController: UIViewController {
         button.layer.cornerRadius = Self.shareButtonWidth / 2
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var backButton: UIButton = {
+        let button = UIButton(type: .custom)
+        let picture = UIImage(named: Constants.Picture.backward)
+
+        button.titleLabel?.text = ""
+        button.setImage(picture, for: .normal)
+        button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
         return button
     }()
     
@@ -49,6 +62,7 @@ class SingleImageViewController: UIViewController {
     
     private func addSubViews() {
         view.addSubview(shareButton)
+        view.addSubview(backButton)
     }
     
     private func applyConstraints() {
@@ -56,11 +70,16 @@ class SingleImageViewController: UIViewController {
             shareButton.widthAnchor.constraint(equalToConstant: Self.shareButtonWidth),
             shareButton.heightAnchor.constraint(equalToConstant: Self.shareButtonWidth),
             shareButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            shareButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            shareButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            
+            backButton.widthAnchor.constraint(equalToConstant: Self.backButtonWidth),
+            backButton.heightAnchor.constraint(equalToConstant: Self.backButtonWidth),
+            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8)
         ])
     }
     
-    @IBAction private func didTapBackButton() {
+    @objc private func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }
     
