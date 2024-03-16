@@ -96,7 +96,6 @@
                     <navigationItem key="navigationItem" id="XlW-eM-iJl"/>
                     <connections>
                         <outlet property="tableView" destination="QrE-il-ixW" id="B4U-gw-rgf"/>
-                        <segue destination="LlA-ER-9gI" kind="presentation" identifier="ShowSingleImage" id="8Ml-8h-mV9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -106,7 +105,7 @@
         <!--Single Image View Controller-->
         <scene sceneID="mni-2T-Op7">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="LlA-ER-9gI" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SingleImageViewController" modalPresentationStyle="fullScreen" id="LlA-ER-9gI" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gv3-bX-ezl">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

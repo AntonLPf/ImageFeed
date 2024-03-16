@@ -34,7 +34,6 @@ enum Constants {
     
     struct SegueId {
         static let showWebViewSegue = "ShowWebView"
-        static let showAuthenticationScreenSegue = "ShowAuthenticationScreen"
     }
     
     struct StoryBoardViewId {

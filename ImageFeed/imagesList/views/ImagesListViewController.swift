@@ -10,7 +10,6 @@ import Kingfisher
 
 class ImagesListViewController: UIViewController {
     
-    private let showSingleImageSegueIdentifier = "ShowSingleImage"
     private let imagesListService = ImagesListService.shared
     private let oauthService = OAuth2Service.shared
     
@@ -77,20 +76,7 @@ class ImagesListViewController: UIViewController {
             cell.likeButton.isHidden = false
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showSingleImageSegueIdentifier {
-            guard 
-                let viewController = segue.destination as? SingleImageViewController,
-                let indexPath = sender as? IndexPath,
-                let url = URL(string: self.photos[indexPath.row].largeImageURL)
-            else { return }
-            viewController.imageUrl = url
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
-    }
-    
+        
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -151,8 +137,15 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
-
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        if let vc = storyboard.instantiateViewController(withIdentifier: "SingleImageViewController") as? SingleImageViewController {
+            
+            let url = URL(string: self.photos[indexPath.row].largeImageURL)
+            vc.modalPresentationStyle = .fullScreen
+            vc.imageUrl = url
+            present(vc, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
