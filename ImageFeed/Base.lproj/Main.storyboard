@@ -139,41 +139,25 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="Backward"/>
                                 <connections>
-                                    <action selector="didTapBackButton" destination="LlA-ER-9gI" eventType="touchUpInside" id="3DF-UX-EDq"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L4g-KL-5QX">
-                                <rect key="frame" x="171" y="751" width="51" height="51"/>
-                                <color key="backgroundColor" name="YPBlack"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="51" id="08I-jG-eSF"/>
-                                    <constraint firstAttribute="width" constant="51" id="WTP-dA-PK6"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="ShareButton"/>
-                                <connections>
-                                    <action selector="didTapShareButton:" destination="LlA-ER-9gI" eventType="touchUpInside" id="4M2-M2-sgW"/>
+                                    <action selector="didTapBackButton" destination="LlA-ER-9gI" eventType="touchUpInside" id="W3R-Qp-fNQ"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Cfa-SG-53v"/>
                         <color key="backgroundColor" name="YPBlack"/>
                         <constraints>
-                            <constraint firstItem="Cfa-SG-53v" firstAttribute="bottom" secondItem="L4g-KL-5QX" secondAttribute="bottom" constant="50" id="Gfp-Fe-H6U"/>
                             <constraint firstItem="FjI-oz-FsG" firstAttribute="top" secondItem="gv3-bX-ezl" secondAttribute="top" id="POP-me-Hwv"/>
                             <constraint firstItem="H99-9b-rnV" firstAttribute="leading" secondItem="Cfa-SG-53v" secondAttribute="leading" constant="8" id="WIe-cR-e61"/>
                             <constraint firstItem="Cfa-SG-53v" firstAttribute="trailing" secondItem="FjI-oz-FsG" secondAttribute="trailing" id="Yby-AF-h8m"/>
                             <constraint firstAttribute="bottom" secondItem="FjI-oz-FsG" secondAttribute="bottom" id="eGU-Us-oJq"/>
                             <constraint firstItem="FjI-oz-FsG" firstAttribute="leading" secondItem="Cfa-SG-53v" secondAttribute="leading" id="jEz-sA-vgp"/>
                             <constraint firstItem="H99-9b-rnV" firstAttribute="top" secondItem="Cfa-SG-53v" secondAttribute="top" constant="8" id="rEu-6z-qDW"/>
-                            <constraint firstItem="L4g-KL-5QX" firstAttribute="centerX" secondItem="gv3-bX-ezl" secondAttribute="centerX" id="zWg-cd-hih"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="GIb-Rh-8A9"/>
                     <connections>
                         <outlet property="imageView" destination="vgv-sh-Erk" id="9TV-Cb-pSH"/>
                         <outlet property="scrollView" destination="FjI-oz-FsG" id="k47-T2-M8g"/>
-                        <outlet property="shareButton" destination="L4g-KL-5QX" id="5nL-9j-KmR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lfr-cc-LAz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -186,7 +170,6 @@
         <image name="Backward" width="24" height="24"/>
         <image name="ImagePlaceHolder" width="83" height="75"/>
         <image name="LikePressed" width="42" height="42"/>
-        <image name="ShareButton" width="30" height="30"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <namedColor name="YPBlack">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

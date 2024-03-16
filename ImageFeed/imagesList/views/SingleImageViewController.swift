@@ -10,11 +10,24 @@ import Kingfisher
 
 class SingleImageViewController: UIViewController {
     
+    static private let shareButtonWidth: CGFloat = 51
+    
     @IBOutlet private weak var scrollView: UIScrollView?
     
-    @IBOutlet private weak var shareButton: UIButton?
-    
     @IBOutlet private var imageView: UIImageView?
+    
+    private lazy var shareButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.titleLabel?.text = ""
+        let picture = UIImage(named: Constants.Picture.shareButton)
+        button.setImage(picture, for: .normal)
+        button.addTarget(self, action: #selector(didTapShareButton), for: .touchUpInside)
+        button.backgroundColor = UIColor(named: Constants.Color.ypBlack)
+        button.layer.cornerRadius = Self.shareButtonWidth / 2
+        button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     var imageUrl: URL? {
         didSet {
@@ -25,20 +38,33 @@ class SingleImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let shareButton {
-            shareButton.layer.cornerRadius = shareButton.frame.width / 2
-            shareButton.layer.masksToBounds = true
-        }
+        
+        addSubViews()
+        applyConstraints()
+        
         scrollView?.minimumZoomScale = 0.1
         scrollView?.maximumZoomScale = 1.25
         configureImageView()
+    }
+    
+    private func addSubViews() {
+        view.addSubview(shareButton)
+    }
+    
+    private func applyConstraints() {
+        NSLayoutConstraint.activate([
+            shareButton.widthAnchor.constraint(equalToConstant: Self.shareButtonWidth),
+            shareButton.heightAnchor.constraint(equalToConstant: Self.shareButtonWidth),
+            shareButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            shareButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        ])
     }
     
     @IBAction private func didTapBackButton() {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction private func didTapShareButton(_ sender: Any) {
+    @objc private func didTapShareButton(_ sender: Any) {
         guard let image = imageView?.image else { return }
         let share = UIActivityViewController(
             activityItems: [image],
