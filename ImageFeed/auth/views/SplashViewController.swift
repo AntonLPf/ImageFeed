@@ -92,7 +92,8 @@ class SplashViewController: UIViewController {
                         buttons: [
                             AlertModel.Button(
                                 buttonText: "OK", 
-                                actionHandler: nil)
+                                actionHandler: nil,
+                                style: .default)
                         ])
                     self.presentedViewController?.presentAlert(model: alertModel)
                 }
@@ -120,7 +121,8 @@ class SplashViewController: UIViewController {
                         buttons: [
                             AlertModel.Button(
                                 buttonText: "OK",
-                                actionHandler: nil)
+                                actionHandler: nil,
+                                style: .default)
                         ])
                     self.presentAlert(model: model)
                 }

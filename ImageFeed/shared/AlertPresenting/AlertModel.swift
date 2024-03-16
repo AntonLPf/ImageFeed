@@ -15,5 +15,6 @@ struct AlertModel {
     struct Button {
         let buttonText: String
         let actionHandler: ((_: UIAlertAction) -> Void)?
+        let style: UIAlertAction.Style
     }
 }

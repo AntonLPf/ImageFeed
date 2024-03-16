@@ -150,8 +150,14 @@ class ProfileViewController: UIViewController {
     // MARK: - actions
     
     @objc private func didExitButtonTap() {
-        profileLogoutService.logout()
-        gotoSplashScreen()
+        let alertModel = AlertModel(title: "Пока, пока!", message: "Уверены что хотите выйти?", buttons: [
+            AlertModel.Button(buttonText: "Да", actionHandler: { _ in
+                self.profileLogoutService.logout()
+                self.gotoSplashScreen()
+            }, style: .destructive),
+            AlertModel.Button(buttonText: "Нет", actionHandler: { _ in }, style: .default)
+        ])
+        presentAlert(model: alertModel)
     }
     
     // MARK: - Methods
@@ -181,3 +187,4 @@ class ProfileViewController: UIViewController {
         profileImageView.kf.setImage(with: imageUrl, placeholder: placeHolderImage)
     }
 }
+

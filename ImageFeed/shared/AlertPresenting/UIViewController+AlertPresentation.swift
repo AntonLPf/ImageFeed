@@ -17,7 +17,7 @@ extension UIViewController {
             alert.addAction(action)
         } else {
             for button in model.buttons {
-                let action = UIAlertAction(title: button.buttonText, style: .default, handler: button.actionHandler)
+                let action = UIAlertAction(title: button.buttonText, style: button.style, handler: button.actionHandler)
                 alert.addAction(action)
             }
         }

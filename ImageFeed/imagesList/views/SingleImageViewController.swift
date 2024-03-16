@@ -141,12 +141,14 @@ class SingleImageViewController: UIViewController {
             buttons: [
                 AlertModel.Button(
                     buttonText: "Не надо",
-                    actionHandler: nil),
+                    actionHandler: nil,
+                    style: .default),
                 AlertModel.Button(
                     buttonText: "Повторить",
                     actionHandler: { _ in
                         self.configureImageView()
-                    })
+                    },
+                    style: .default)
             ])
         self.presentAlert(model: alertModel)
     }
