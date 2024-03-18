@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     
     private let imagesListService = ImagesListService.shared
     private let oauthService = OAuth2Service.shared
@@ -35,24 +35,6 @@ class ImagesListViewController: UIViewController {
         self.fetchMorePhotos()
     }
     
-    private lazy var placeHolderView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .placeHolderGray
-
-        let placeHolderImage = UIImage(named: Constants.Picture.imagePlaceHolder)
-        let imageView = UIImageView(image: placeHolderImage)
-        view.addSubview(imageView)
-        
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-        
-        return view
-    }()
-    
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         cell.cellImage.kf.indicatorType = .activity
         let photoIndex = indexPath.row
@@ -63,9 +45,8 @@ class ImagesListViewController: UIViewController {
         let imageUrlString = photo.thumbImageURL
         let imageUrl = URL(string: imageUrlString)
         cell.delegate = self
-        cell.cellImage.kf.setImage(with: imageUrl, placeholder: placeHolderView, options: nil) { _ in
+        cell.cellImage.kf.setImage(with: imageUrl) { _ in
             cell.cellImage.contentMode = .scaleAspectFill
-            self.tableView.reloadRows(at: [indexPath], with: .automatic)
             
             if let date = photo.createdAt {
                 cell.dateLabel.text = self.dateFormatter.string(from: date)
@@ -79,7 +60,7 @@ class ImagesListViewController: UIViewController {
         
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .long
+        formatter.dateStyle = .medium
         formatter.timeStyle = .none
         return formatter
     }()
@@ -192,5 +173,3 @@ extension ImagesListViewController: ImagesListCellDelegate {
         }
     }
 }
-
-extension UIView: Placeholder {}

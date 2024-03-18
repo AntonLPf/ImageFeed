@@ -38,11 +38,10 @@ final class ImagesListService {
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             guard let self else { return }
-            
-            switch result {
-            case .success(let photoResult):
-                let loadedPhotos = photoResult.map { self.convertToPhoto($0) }
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let photoResult):
+                    let loadedPhotos = photoResult.map { self.convertToPhoto($0) }
                     self.photos.append(contentsOf: loadedPhotos)
                     self.lastLoadedPage = nextPage
                     self.ongoingTask = nil
@@ -52,11 +51,11 @@ final class ImagesListService {
                         name: ImagesListService.didChangeNotification,
                         object: self,
                         userInfo: [:])
+                case .failure(let error):
+                    self.ongoingTask = nil
+                    ErrorPrinterService.shared.printToConsole(error)
+                    completion(.failure(error))
                 }
-            case .failure(let error):
-                self.ongoingTask = nil
-                ErrorPrinterService.shared.printToConsole(error)
-                completion(.failure(error))
             }
         }
         self.ongoingTask = task
@@ -74,31 +73,30 @@ final class ImagesListService {
         }
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<LikeResult, Error>) in
             guard let self else { return }
-            
-            switch result {
-            case .success(let likeResult):
-                let loadedPhoto = convertToPhoto(likeResult.photo)
-                if let index = self.photos.firstIndex(where: { $0.id == loadedPhoto.id }) {
-                    let photo = self.photos[index]
-                    let newPhoto = Photo(
-                        id: photo.id,
-                        size: photo.size,
-                        createdAt: photo.createdAt,
-                        welcomeDescription: photo.welcomeDescription,
-                        thumbImageURL: photo.thumbImageURL,
-                        largeImageURL: photo.largeImageURL,
-                        isLiked: loadedPhoto.isLiked
-                    )
-                    DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let likeResult):
+                    let loadedPhoto = self.convertToPhoto(likeResult.photo)
+                    if let index = self.photos.firstIndex(where: { $0.id == loadedPhoto.id }) {
+                        let photo = self.photos[index]
+                        let newPhoto = Photo(
+                            id: photo.id,
+                            size: photo.size,
+                            createdAt: photo.createdAt,
+                            welcomeDescription: photo.welcomeDescription,
+                            thumbImageURL: photo.thumbImageURL,
+                            largeImageURL: photo.largeImageURL,
+                            isLiked: loadedPhoto.isLiked
+                        )
+                        
                         self.photos[index] = newPhoto
                         completion(.success(newPhoto.isLiked))
                     }
+                case .failure(let error):
+                    ErrorPrinterService.shared.printToConsole(error)
+                    completion(.failure(error))
                 }
-            case .failure(let error):
-                ErrorPrinterService.shared.printToConsole(error)
-                completion(.failure(error))
             }
-            
         }
         task.resume()
     }
@@ -109,14 +107,17 @@ final class ImagesListService {
         lastLoadedPage = nil
     }
     
+    private let dateFormatter = ISO8601DateFormatter()
+
     private func convertToPhoto(_ photoResult: PhotoResult) -> Photo {
         Photo(id: photoResult.id,
               size: CGSize(width: photoResult.width,
                            height: photoResult.height),
-              createdAt: ISO8601DateFormatter().date(from: photoResult.createdAt),
+              createdAt: dateFormatter.date(from: photoResult.createdAt),
               welcomeDescription: photoResult.description,
               thumbImageURL: photoResult.urls.thumb,
               largeImageURL: photoResult.urls.full,
               isLiked: photoResult.likedByUser)
     }
+    
 }

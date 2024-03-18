@@ -8,7 +8,7 @@
 import UIKit
 import ProgressHUD
 
-class SplashViewController: UIViewController {
+final class SplashViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     private let oauth2Service: OAuth2ServiceProtocol = OAuth2Service.shared
@@ -105,15 +105,13 @@ class SplashViewController: UIViewController {
         profileService.fetchProfile(token) { [weak self] result in
             guard let self = self else { return }
             
-            switch result {
-            case .success(let profile):
-                ProfileImageService.shared.fetchProfileImageURL(token, username: profile.username) { _ in }
-                DispatchQueue.main.async {
-                    UIBlockingProgressHUD.dismiss()
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let profile):
+                    ProfileImageService.shared.fetchProfileImageURL(token, username: profile.username) { _ in }
                     self.switchToTabBarController()
-                }
-            case .failure:
-                DispatchQueue.main.async {
+                    UIBlockingProgressHUD.dismiss()
+                case .failure:
                     UIBlockingProgressHUD.dismiss()
                     let model = AlertModel(
                         title: "Что-то пошло не так",

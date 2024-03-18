@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     
     private let profileLogoutService = ProfileLogoutService.shared
     

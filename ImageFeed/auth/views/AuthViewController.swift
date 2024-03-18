@@ -12,7 +12,7 @@ protocol AuthViewControllerDelegate: AnyObject {
     func didAuthenticate(_ vc: AuthViewController)
 }
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     
     weak var delegate: AuthViewControllerDelegate?
     

@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class SingleImageViewController: UIViewController {
+final class SingleImageViewController: UIViewController {
     
     static private let shareButtonWidth: CGFloat = 51
     static private let backButtonWidth: CGFloat = 48
