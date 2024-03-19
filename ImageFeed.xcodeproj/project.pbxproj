@@ -52,6 +52,7 @@
 		3ACFD5942B7A52D60019B543 /* CodeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD5932B7A52D60019B543 /* CodeRequest.swift */; };
 		3ACFD5972B7A572B0019B543 /* TokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD5962B7A572B0019B543 /* TokenRequest.swift */; };
 		3ACFD59A2B7A6EF60019B543 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD5992B7A6EF60019B543 /* OAuth2Service.swift */; };
+		3AE2C1CA2BA9B86300B0A244 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE2C1C92BA9B86300B0A244 /* WebViewPresenter.swift */; };
 		3AF71A042B8B863D00E1AF00 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF71A032B8B863D00E1AF00 /* Kingfisher */; };
 		3AF71A072B8B98AB00E1AF00 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF71A062B8B98AB00E1AF00 /* SwiftKeychainWrapper */; };
 		3AF71A092B8BB57C00E1AF00 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF71A082B8BB57C00E1AF00 /* TabBarController.swift */; };
@@ -115,6 +116,7 @@
 		3ACFD5932B7A52D60019B543 /* CodeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeRequest.swift; sourceTree = "<group>"; };
 		3ACFD5962B7A572B0019B543 /* TokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRequest.swift; sourceTree = "<group>"; };
 		3ACFD5992B7A6EF60019B543 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
+		3AE2C1C92BA9B86300B0A244 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		3AF71A082B8BB57C00E1AF00 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -347,6 +349,7 @@
 				3A1BF11A2B7BAF320073CA61 /* SplashViewController.swift */,
 				3A72FAD42B715F2600B5BD10 /* AuthViewController.swift */,
 				3A72FAD72B7168EE00B5BD10 /* WebViewViewController.swift */,
+				3AE2C1C92BA9B86300B0A244 /* WebViewPresenter.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				3A7760022B84EE9700B2553E /* UIBlockingProgressHUD.swift in Sources */,
 				3A6CCD8F2B92730500E8773F /* AlertModel.swift in Sources */,
 				3A38400F2B448FC500094252 /* ImagesListViewController.swift in Sources */,
+				3AE2C1CA2BA9B86300B0A244 /* WebViewPresenter.swift in Sources */,
 				3AA741E92B9EE10E00773E3E /* LikeResult.swift in Sources */,
 				3AA741E72B9DBB2200773E3E /* RemoveLikeRequest.swift in Sources */,
 				3ACFD5972B7A572B0019B543 /* TokenRequest.swift in Sources */,
