@@ -34,7 +34,7 @@
 		3A6CCD962B94DA0400E8773F /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6CCD952B94DA0400E8773F /* Photo.swift */; };
 		3A6CCD982B94E49600E8773F /* PhotoResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6CCD972B94E49600E8773F /* PhotoResult.swift */; };
 		3A6CCD9B2B94E67F00E8773F /* ImageListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6CCD9A2B94E67F00E8773F /* ImageListRequest.swift */; };
-		3A6CCDA32B94F97400E8773F /* ImagesListServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6CCDA22B94F97400E8773F /* ImagesListServiceTests.swift */; };
+		3A6CCDA32B94F97400E8773F /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6CCDA22B94F97400E8773F /* WebViewTests.swift */; };
 		3A72FAD52B715F2600B5BD10 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72FAD42B715F2600B5BD10 /* AuthViewController.swift */; };
 		3A72FAD82B7168EE00B5BD10 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72FAD72B7168EE00B5BD10 /* WebViewViewController.swift */; };
 		3A775FFD2B80C55800B2553E /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 3A775FFC2B80C55800B2553E /* ProgressHUD */; };
@@ -53,6 +53,7 @@
 		3ACFD5972B7A572B0019B543 /* TokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD5962B7A572B0019B543 /* TokenRequest.swift */; };
 		3ACFD59A2B7A6EF60019B543 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD5992B7A6EF60019B543 /* OAuth2Service.swift */; };
 		3AE2C1CA2BA9B86300B0A244 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE2C1C92BA9B86300B0A244 /* WebViewPresenter.swift */; };
+		3AF5C0882BAA10C2009AA071 /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF5C0872BAA10C2009AA071 /* AuthHelper.swift */; };
 		3AF71A042B8B863D00E1AF00 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF71A032B8B863D00E1AF00 /* Kingfisher */; };
 		3AF71A072B8B98AB00E1AF00 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF71A062B8B98AB00E1AF00 /* SwiftKeychainWrapper */; };
 		3AF71A092B8BB57C00E1AF00 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF71A082B8BB57C00E1AF00 /* TabBarController.swift */; };
@@ -99,7 +100,7 @@
 		3A6CCD972B94E49600E8773F /* PhotoResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResult.swift; sourceTree = "<group>"; };
 		3A6CCD9A2B94E67F00E8773F /* ImageListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListRequest.swift; sourceTree = "<group>"; };
 		3A6CCDA02B94F97400E8773F /* ImageFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A6CCDA22B94F97400E8773F /* ImagesListServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListServiceTests.swift; sourceTree = "<group>"; };
+		3A6CCDA22B94F97400E8773F /* WebViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewTests.swift; sourceTree = "<group>"; };
 		3A72FAD42B715F2600B5BD10 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		3A72FAD72B7168EE00B5BD10 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		3A7760012B84EE9700B2553E /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
@@ -117,6 +118,7 @@
 		3ACFD5962B7A572B0019B543 /* TokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRequest.swift; sourceTree = "<group>"; };
 		3ACFD5992B7A6EF60019B543 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		3AE2C1C92BA9B86300B0A244 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
+		3AF5C0872BAA10C2009AA071 /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		3AF71A082B8BB57C00E1AF00 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -175,6 +177,7 @@
 				3ACFD5992B7A6EF60019B543 /* OAuth2Service.swift */,
 				3A1697F42B87EAFF0002ED41 /* ProfileService.swift */,
 				3A1697FC2B892E710002ED41 /* ProfileImageService.swift */,
+				3AF5C0872BAA10C2009AA071 /* AuthHelper.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -277,7 +280,7 @@
 		3A6CCDA12B94F97400E8773F /* ImageFeedTests */ = {
 			isa = PBXGroup;
 			children = (
-				3A6CCDA22B94F97400E8773F /* ImagesListServiceTests.swift */,
+				3A6CCDA22B94F97400E8773F /* WebViewTests.swift */,
 			);
 			path = ImageFeedTests;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 				3A32CF7A2B5C4DF70058B289 /* ProfileViewController.swift in Sources */,
 				3A1697FA2B88F7030002ED41 /* ProfileService.swift in Sources */,
 				3A1698042B89E5130002ED41 /* URLSession+extension.swift in Sources */,
+				3AF5C0882BAA10C2009AA071 /* AuthHelper.swift in Sources */,
 				3A38400D2B448FC500094252 /* SceneDelegate.swift in Sources */,
 				3A6CCD962B94DA0400E8773F /* Photo.swift in Sources */,
 				3A1697F92B88EAB60002ED41 /* ProfileRequest.swift in Sources */,
@@ -525,7 +529,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A6CCDA32B94F97400E8773F /* ImagesListServiceTests.swift in Sources */,
+				3A6CCDA32B94F97400E8773F /* WebViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

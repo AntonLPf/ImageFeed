@@ -11,7 +11,7 @@ enum ProfileRequest: RequestProtocol {
     case getProfile
     
     var host: String {
-        Constants.SplashApi.apiHost
+        Constants.UnsplashApi.apiHost
     }
     
     var requestType: RequestType {

@@ -11,7 +11,7 @@ enum ProfileImageRequest: RequestProtocol {
     case getUser(userName: String)
     
     var host: String {
-        Constants.SplashApi.apiHost
+        Constants.UnsplashApi.apiHost
     }
     
     var requestType: RequestType {

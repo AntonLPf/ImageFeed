@@ -29,7 +29,7 @@ final class ImagesListService {
         guard ongoingTask == nil else { return }
         
         let nextPage = (lastLoadedPage ?? 0) + 1
-        let perPage = Constants.SplashApi.numberOfImagesPerPage
+        let perPage = Constants.UnsplashApi.numberOfImagesPerPage
         let request = ImageListRequest.getImages(page: nextPage, perPage: perPage)
 
         guard let request = try? request.createURLRequest(token: token) else {

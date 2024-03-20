@@ -26,9 +26,9 @@ enum TokenRequest: RequestProtocol {
         switch self {
         case .getToken(let code):
             return [
-                "client_id": Constants.SplashApi.accesKey,
-                "client_secret": Constants.SplashApi.secretKey,
-                "redirect_uri": Constants.SplashApi.redirectUri,
+                "client_id": Constants.UnsplashApi.accessKey,
+                "client_secret": Constants.UnsplashApi.secretKey,
+                "redirect_uri": Constants.UnsplashApi.redirectUri,
                 "code": code,
                 "grant_type": "authorization_code"
             ]

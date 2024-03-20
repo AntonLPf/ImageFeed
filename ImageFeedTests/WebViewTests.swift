@@ -8,7 +8,8 @@
 @testable import ImageFeed
 import XCTest
 
-final class ImagesListServiceTests: XCTestCase {
+final class WebViewTests: XCTestCase {
+    
     func testFetchPhotos() {
         let service = ImagesListService.shared
         

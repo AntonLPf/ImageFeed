@@ -20,7 +20,7 @@ protocol RequestProtocol {
 extension RequestProtocol {
     
     var host: String {
-        Constants.SplashApi.host
+        Constants.UnsplashApi.host
     }
         
     var params: [String: Any] {
