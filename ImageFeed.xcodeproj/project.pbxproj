@@ -54,6 +54,7 @@
 		3ACFD59A2B7A6EF60019B543 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFD5992B7A6EF60019B543 /* OAuth2Service.swift */; };
 		3AE2C1CA2BA9B86300B0A244 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE2C1C92BA9B86300B0A244 /* WebViewPresenter.swift */; };
 		3AF5C0882BAA10C2009AA071 /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF5C0872BAA10C2009AA071 /* AuthHelper.swift */; };
+		3AF5C08A2BAB08D9009AA071 /* ProfileViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF5C0892BAB08D9009AA071 /* ProfileViewControllerTests.swift */; };
 		3AF71A042B8B863D00E1AF00 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF71A032B8B863D00E1AF00 /* Kingfisher */; };
 		3AF71A072B8B98AB00E1AF00 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF71A062B8B98AB00E1AF00 /* SwiftKeychainWrapper */; };
 		3AF71A092B8BB57C00E1AF00 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF71A082B8BB57C00E1AF00 /* TabBarController.swift */; };
@@ -119,6 +120,7 @@
 		3ACFD5992B7A6EF60019B543 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		3AE2C1C92BA9B86300B0A244 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		3AF5C0872BAA10C2009AA071 /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
+		3AF5C0892BAB08D9009AA071 /* ProfileViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerTests.swift; sourceTree = "<group>"; };
 		3AF71A082B8BB57C00E1AF00 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -281,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				3A6CCDA22B94F97400E8773F /* WebViewTests.swift */,
+				3AF5C0892BAB08D9009AA071 /* ProfileViewControllerTests.swift */,
 			);
 			path = ImageFeedTests;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AF5C08A2BAB08D9009AA071 /* ProfileViewControllerTests.swift in Sources */,
 				3A6CCDA32B94F97400E8773F /* WebViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
