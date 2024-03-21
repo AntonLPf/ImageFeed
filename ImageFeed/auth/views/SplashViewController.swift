@@ -12,6 +12,8 @@ final class SplashViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     private let oauth2Service: OAuth2ServiceProtocol = OAuth2Service.shared
+    private let alertPresenter = AlertPresenter()
+    private let windowController = WindowController()
     
     // MARK: - creating views
     
@@ -60,11 +62,8 @@ final class SplashViewController: UIViewController {
     // MARK: - methods
     
     private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else {
-            preconditionFailure("Invalid Configuration")
-        }
         let tabBarController = TabBarController()
-        window.rootViewController = tabBarController
+        windowController.setRootController(to: tabBarController)
     }
     
     private func navigateToAuthScreen() {
@@ -95,7 +94,9 @@ final class SplashViewController: UIViewController {
                                 actionHandler: nil,
                                 style: .default)
                         ])
-                    self.presentedViewController?.presentAlert(model: alertModel)
+                    if let vc = self.presentedViewController {
+                        self.alertPresenter.presentAlert(model: alertModel, on: vc)
+                    }
                 }
             }
         }
@@ -122,7 +123,7 @@ final class SplashViewController: UIViewController {
                                 actionHandler: nil,
                                 style: .default)
                         ])
-                    self.presentAlert(model: model)
+                    self.alertPresenter.presentAlert(model: model, on: self)
                 }
             }
         }

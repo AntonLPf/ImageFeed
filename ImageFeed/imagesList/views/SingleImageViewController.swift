@@ -12,6 +12,7 @@ final class SingleImageViewController: UIViewController {
     
     static private let shareButtonWidth: CGFloat = 51
     static private let backButtonWidth: CGFloat = 48
+    private let alertPresenter = AlertPresenter()
     
     var imageUrl: URL? {
         didSet {
@@ -150,7 +151,7 @@ final class SingleImageViewController: UIViewController {
                     },
                     style: .default)
             ])
-        self.presentAlert(model: alertModel)
+        alertPresenter.presentAlert(model: alertModel, on: self)
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
