@@ -10,41 +10,29 @@ import XCTest
 
 final class ProfileViewTests: XCTestCase {
     
-    final class ProfileViewPresenterSpy: ProfileViewPresenterProtocol {
-        var view: ProfileViewControllerProtocol?
+    class ProfileViewControllerSpy: ProfileViewController {
+        var updateProfileDetailsCalled = false
+        var updateAvatarCalled = false
         
-        var isViewDidLoadCalled = false
-        
-        var alertToShow: AlertModel?
-        
-        init(profileService: ProfileServiceProtocol,
-             profileLogoutService: ProfileLogoutServiceProtocol, 
-             profileImageService: ProfileImageServiceProtocol,
-             alertPresenter: AlertPresenterProtocol,
-             windowController: WindowControllerProtocol) {
-            
+        override func updateProfileDetails(with profile: ImageFeed.Profile) {
+            updateProfileDetailsCalled = true
         }
         
-        func exitButtonDidTap() {
-            
-        }
-        
-        func viewDidLoad() {
-            isViewDidLoadCalled = true
-        }
-        
-    }
-    
-    final class WindowControllerSpy: WindowControllerProtocol {
-        
-        var setRootController: UIViewController?
-        
-        func setRootController(to vc: UIViewController) {
-            setRootController = vc
+        override func updateAvatar(avatarUrl: URL?) {
+            updateAvatarCalled = true
         }
     }
     
     func testVCcallsPresenterViewDidload() {
+        final class ProfileViewPresenterSpy: ProfileViewPresenter {
+            var isViewDidLoadCalled = false
+                            
+            override func viewDidLoad() {
+                isViewDidLoadCalled = true
+            }
+            
+        }
+        
         let presenter = ProfileViewPresenterSpy()
         let vc = ProfileViewController(presenter: presenter)
         
@@ -53,49 +41,92 @@ final class ProfileViewTests: XCTestCase {
         XCTAssertTrue(presenter.isViewDidLoadCalled)
     }
     
-    func testPresenterAlertModelText() {
-        let presenter = ProfileViewPresenterSpy()
-        let windowController = WindowControllerSpy()
+    func testPresenterCallsAlertPresenterAfterExitButtonDidTap() {
+        
+        final class AlertPresenterSpy: AlertPresenterProtocol {
+            var presentAlertDidCall = false
+            
+            func presentAlert(model: AlertModel, on vc: AnyObject) {
+                presentAlertDidCall = true
+            }
+        }
+        
+        let alertPresenter = AlertPresenterSpy()
+        let presenter = ProfileViewPresenter(alertPresenter: alertPresenter)
         let vc = ProfileViewController(presenter: presenter)
-
-        let expectedAlertModel = AlertModel(title: "Пока, пока!", message: "Уверены что хотите выйти?", buttons: [
-            AlertModel.Button(buttonText: "Да", actionHandler: { _ in
-                    
-            }, style: .destructive),
-            AlertModel.Button(buttonText: "Нет", actionHandler: { _ in }, style: .default)
-        ])
+        
+        presenter.exitButtonDidTap()
+        
+        XCTAssertTrue(alertPresenter.presentAlertDidCall)
     }
     
-//    final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
-//        var isPresentAlertCalled = false
-//        
-//        func presentAlert(model: AlertModel) {
-//            isPresentAlertCalled = true
-//        }
-//    }
-//    
-//    var vc: ProfileViewController!
-//
-//    override func setUpWithError() throws {
-//        try super.setUpWithError()
-//        vc = ProfileViewController()
-//    }
-//
-//    override func tearDownWithError() throws {
-//        vc = nil
-//        try super.tearDownWithError()
-//    }
-//
-//    func testAlertConfiguration() throws {
-//        
-//        //given
-//        let vc = ProfileViewController()
-//        
-//        //when
-//        vc.didExitButtonTap()
-//        
-//        //then
-//        
-//    }
+    func testPresenterAlertCorrectText() {
+        
+        final class AlertPresenterSpy: AlertPresenterProtocol {
+            var passedAlertModel: AlertModel?
+            
+            func presentAlert(model: AlertModel, on vc: AnyObject) {
+                passedAlertModel = model
+            }
+        }
+        
+        let alertPresenter = AlertPresenterSpy()
+        let presenter = ProfileViewPresenter(alertPresenter: alertPresenter)
+        let vc = ProfileViewController(presenter: presenter)
+                
+        let expectedAlertModel = AlertModel(title: "Пока, пока!", message: "Уверены что хотите выйти?", buttons: [
+            AlertModel.Button(buttonText: "Да", actionHandler: { _ in }, style: .destructive),
+            AlertModel.Button(buttonText: "Нет", actionHandler: { _ in }, style: .default)
+        ])
+        
+        presenter.exitButtonDidTap()
+        let passedAlertModel = alertPresenter.passedAlertModel!
+        
+        XCTAssertEqual(passedAlertModel.title, expectedAlertModel.title)
+        XCTAssertEqual(passedAlertModel.message, expectedAlertModel.message)
+        XCTAssertEqual(passedAlertModel.buttons.first!.buttonText, expectedAlertModel.buttons.first!.buttonText)
 
+    }
+
+    func testPresenterCallsVCUpdateProfileDetailsAfterViewDidLoad() {
+        
+        class ProfileServiceMock: ProfileServiceProtocol {
+            var profile: Profile? = Profile(username: "", name: "", loginName: "", bio: "")
+            
+            func fetchProfile(_ token: String, completion: @escaping (Result<ImageFeed.Profile, any Error>) -> Void) {
+                
+            }
+            
+            func reset() {
+                
+            }
+        }
+        
+        let profileservice = ProfileServiceMock()
+        let presenter = ProfileViewPresenter(profileService: profileservice)
+        let vc = ProfileViewControllerSpy(presenter: presenter)
+        
+        presenter.viewDidLoad()
+        
+        XCTAssertTrue(vc.updateProfileDetailsCalled)
+    }
+    
+    func testPresenterCallsVCUpdateProfileImageAfterViewDidLoad() {
+        
+        class ProfileImageServiceMock: ProfileImageServiceProtocol {            
+            var avatarUrl: String? = "https://example.com"
+            
+            func fetchProfileImageURL(_ token: String, username: String, _ completion: @escaping (Result<String, any Error>) -> Void) { }
+            
+            func reset() { }
+        }
+        
+        let profileImageService = ProfileImageServiceMock()
+        let presenter = ProfileViewPresenter(profileImageService: profileImageService)
+        let vc = ProfileViewControllerSpy(presenter: presenter)
+        
+        presenter.viewDidLoad()
+        
+        XCTAssertTrue(vc.updateAvatarCalled)
+    }
 }

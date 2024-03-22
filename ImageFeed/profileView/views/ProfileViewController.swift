@@ -9,22 +9,22 @@ import UIKit
 import Kingfisher
 
 protocol ProfileViewControllerProtocol: AnyObject {
-    var presenter: ProfileViewPresenterProtocol { get set }
+    var presenter: ProfileViewPresenterProtocol? { get set }
     func updateProfileDetails(with profile: Profile)
     func updateAvatar(avatarUrl: URL?)
 }
 
-final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     
     static private let profileImageWidth: CGFloat = 70.0
     private let profilePicturePlaceHolder = Constants.Picture.profilePicturePlaceHolder
 
-    var presenter: ProfileViewPresenterProtocol
+    var presenter: ProfileViewPresenterProtocol?
     
     init(presenter: ProfileViewPresenterProtocol) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
-        self.presenter.view = self
+        self.presenter?.view = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -102,7 +102,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         setupMainView()
         addSubViews()
         applyConstraints()
-        presenter.viewDidLoad()
+        presenter?.viewDidLoad()
     }
     
     // MARK: - assembling
@@ -149,7 +149,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     // MARK: - actions
     
     @objc private func exitButtonDidTap() {
-        presenter.exitButtonDidTap()
+        presenter?.exitButtonDidTap()
     }
     
     // MARK: - Methods

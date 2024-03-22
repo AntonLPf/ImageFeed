@@ -13,7 +13,7 @@ protocol ProfileViewPresenterProtocol {
     func viewDidLoad()
 }
 
-final class ProfileViewPresenter: ProfileViewPresenterProtocol {
+class ProfileViewPresenter: ProfileViewPresenterProtocol {
     
     weak var view: ProfileViewControllerProtocol?
     
@@ -21,22 +21,30 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     private var profileService: ProfileServiceProtocol?
     private var profileLogoutService: ProfileLogoutServiceProtocol?
     private var profileImageService: ProfileImageServiceProtocol?
-    private var profileImageServiceObserver: NSObjectProtocol?
     private var alertPresenter: AlertPresenterProtocol?
-    
-    init(profileService: ProfileServiceProtocol = ProfileService.shared,
+    private var profileImageServiceObserver: NSObjectProtocol?
+
+    init(windowController: WindowControllerProtocol = WindowController(),
+         profileService: ProfileServiceProtocol = ProfileService.shared,
          profileLogoutService: ProfileLogoutServiceProtocol = ProfileLogoutService.shared,
          profileImageService: ProfileImageServiceProtocol = ProfileImageService.shared,
-         alertPresenter: AlertPresenterProtocol = AlertPresenter(),
-         windowController: WindowControllerProtocol = WindowController()) {
+         alertPresenter: AlertPresenterProtocol = AlertPresenter()) {
+        self.windowController = windowController
         self.profileService = profileService
         self.profileLogoutService = profileLogoutService
         self.profileImageService = profileImageService
-        self.configureProfileImageServiceObserver()
         self.alertPresenter = alertPresenter
-        self.windowController = windowController
+        
+        self.profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: profileImageService.didChangeNotificationName,
+            object: nil,
+            queue: .main,
+            using: { [weak self] _ in
+                guard let self = self else { return }
+                self.updateProfileImage()
+            })
     }
-    
+        
     func exitButtonDidTap() {
         guard let view else { return }
         let alertModel = getLogoutAlertModel()
@@ -73,7 +81,8 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     
     private func updateProfileImage() {
         guard
-            let profileImageUrl = ProfileImageService.shared.avatarUrl,
+            let profileImageService,
+            let profileImageUrl = profileImageService.avatarUrl,
             let imageUrl = URL(string: profileImageUrl)
         else { return }
         view?.updateAvatar(avatarUrl: imageUrl)
@@ -82,16 +91,5 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     private func gotoSplashScreen() {
         let splashViewController = SplashViewController()
         windowController?.setRootController(to: splashViewController)
-    }
-    
-    private func configureProfileImageServiceObserver() {
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.didChangeNotification,
-            object: nil,
-            queue: .main,
-            using: { [weak self] _ in
-                guard let self = self else { return }
-                self.updateProfileImage()
-            })
     }
 }

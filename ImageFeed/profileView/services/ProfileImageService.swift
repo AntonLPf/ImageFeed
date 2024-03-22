@@ -8,18 +8,21 @@
 import Foundation
 
 protocol ProfileImageServiceProtocol {
+    var avatarUrl: String? { get }
+    var didChangeNotificationName: Notification.Name { get }
     func fetchProfileImageURL(_ token: String, username: String, _ completion: @escaping (Result<String, Error>) -> Void)
     func reset()
+}
+
+extension ProfileImageServiceProtocol {
+    var didChangeNotificationName: Notification.Name {
+        Notification.Name(Constants.NCNotification.profileImageProviderDidChange)
+    }
 }
 
 final class ProfileImageService: ProfileImageServiceProtocol {
     
     static let shared = ProfileImageService()
-    private init() {}
-    
-    static let didChangeNotification = Notification.Name(
-        Constants.NCNotification.profileImageProviderDidChange
-    )
     
     private var ongoingTask: URLSessionTask?
     private let urlSession = URLSession.shared
@@ -43,7 +46,7 @@ final class ProfileImageService: ProfileImageServiceProtocol {
                     self.avatarUrl = profileImageUrl
                     completion(.success(profileImageUrl))
                     NotificationCenter.default.post(
-                        name: ProfileImageService.didChangeNotification,
+                        name: didChangeNotificationName,
                         object: self,
                         userInfo: ["URL": profileImageUrl])
                 }
