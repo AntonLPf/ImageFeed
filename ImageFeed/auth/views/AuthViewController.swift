@@ -33,6 +33,7 @@ final class AuthViewController: UIViewController {
         button.setTitleColor(UIColor(named: Constants.Color.ypBlack), for: .normal)
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         button.layer.cornerRadius = 16
+        button.accessibilityIdentifier = "Authenticate"
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

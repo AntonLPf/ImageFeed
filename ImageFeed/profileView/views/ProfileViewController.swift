@@ -49,6 +49,7 @@ class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
         let profilePicture = UIImage(named: Constants.Picture.exitButton)
         button.setImage(profilePicture, for: .normal)
         button.addTarget(self, action: #selector(exitButtonDidTap), for: .touchUpInside)
+        button.accessibilityIdentifier = "logout button"
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -58,6 +59,7 @@ class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
         label.text = "Екатерина Новикова"
         label.textColor = UIColor(named: Constants.Color.ypWhite)
         label.font = UIFont(name: Constants.Font.ysDisplayBold, size: 23)
+        label.accessibilityIdentifier = "Name Lastname"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

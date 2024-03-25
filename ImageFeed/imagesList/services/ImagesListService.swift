@@ -7,14 +7,29 @@
 
 import Foundation
 
-final class ImagesListService {
+protocol ImageListServiceProtocol {
+    var photos: [Photo] { get }
+    var didChangeNotificationName: Notification.Name { get }
+    
+    func fetchPhotosNextPage(_ token: String,_ completion: @escaping (Result<[Photo], Error>) -> Void)
+    
+    func changeLike(token: String, photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool, Error>) -> Void)
+    
+    func reset()
+}
+
+extension ImageListServiceProtocol {
+    
+    var didChangeNotificationName: Notification.Name {
+        Notification.Name(Constants.NCNotification.imagesListServiceDidChange)
+    }
+    
+}
+
+final class ImagesListService: ImageListServiceProtocol {
     
     static let shared = ImagesListService()
     private init() {}
-    
-    static let didChangeNotification = Notification.Name(
-        Constants.NCNotification.imagesListServiceDidChange
-    )
     
     private(set) var photos: [Photo] = []
     
@@ -48,7 +63,7 @@ final class ImagesListService {
                     completion(.success(loadedPhotos))
                     
                     NotificationCenter.default.post(
-                        name: ImagesListService.didChangeNotification,
+                        name: self.didChangeNotificationName,
                         object: self,
                         userInfo: [:])
                 case .failure(let error):
