@@ -23,11 +23,11 @@ final class ProfileLogoutService: ProfileLogoutServiceProtocol {
     private init() { }
     
     func logout() {
+        cleanCookies()
         oauthService.removeTokenAndReset()
         profileService.reset()
         profileImageService.reset()
         imagesListService.reset()
-        cleanCookies()
     }
         
     private func cleanCookies() {

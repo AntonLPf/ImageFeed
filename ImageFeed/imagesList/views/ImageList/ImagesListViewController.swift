@@ -14,18 +14,46 @@ protocol ImagesListViewControllerProtocol: AnyObject {
     func updateTableViewAnimated(photoIndexes: Range<Int>)
     func showBlockingLoader()
     func hideBlockingLoader()
+    
+    init(presenter: ImageListPresenterProtocol?)
 }
 
-final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
+class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
     
     var presenter: ImageListPresenterProtocol?
         
     @IBOutlet private var tableView: UITableView!
-        
+    
+    required init(presenter: ImageListPresenterProtocol? = nil) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         presenter?.viewDidLoad()
+    }
+        
+    func updateTableViewAnimated(photoIndexes: Range<Int>) {
+        tableView.performBatchUpdates {
+            let indexPaths = photoIndexes.map { i in
+                IndexPath(row: i, section: 0)
+            }
+            tableView.insertRows(at: indexPaths, with: .automatic)
+        } completion: { _ in }
+    }
+    
+    func showBlockingLoader() {
+        UIBlockingProgressHUD.show()
+    }
+    
+    func hideBlockingLoader() {
+        UIBlockingProgressHUD.dismiss()
     }
     
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
@@ -43,39 +71,10 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
         cell.delegate = self
         cell.cellImage.kf.setImage(with: imageUrl) { _ in
             cell.cellImage.contentMode = .scaleAspectFill
-            
-            if let date = photo.createdAt {
-                cell.dateLabel.text = self.dateFormatter.string(from: date)
-            } else {
-                cell.dateLabel.text = ""
-            }
+            cell.dateLabel.text = photo.createdAt
             cell.setIsLiked(to: photo.isLiked)
             cell.likeButton.isHidden = false
         }
-    }
-        
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter
-    }()
-        
-    func updateTableViewAnimated(photoIndexes: Range<Int>) {
-        tableView.performBatchUpdates {
-            let indexPaths = photoIndexes.map { i in
-                IndexPath(row: i, section: 0)
-            }
-            tableView.insertRows(at: indexPaths, with: .automatic)
-        } completion: { _ in }
-    }
-    
-    func showBlockingLoader() {
-        UIBlockingProgressHUD.show()
-    }
-    
-    func hideBlockingLoader() {
-        UIBlockingProgressHUD.dismiss()
     }
 }
 

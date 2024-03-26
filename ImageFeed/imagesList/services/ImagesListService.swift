@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ImageListServiceProtocol {
+protocol ImageListServiceProtocol: AnyObject {
     var photos: [Photo] { get }
     var didChangeNotificationName: Notification.Name { get }
     
@@ -122,17 +122,31 @@ final class ImagesListService: ImageListServiceProtocol {
         lastLoadedPage = nil
     }
     
-    private let dateFormatter = ISO8601DateFormatter()
-
+    private lazy var fromStringDateFormatter = ISO8601DateFormatter()
+    
     private func convertToPhoto(_ photoResult: PhotoResult) -> Photo {
-        Photo(id: photoResult.id,
-              size: CGSize(width: photoResult.width,
-                           height: photoResult.height),
-              createdAt: dateFormatter.date(from: photoResult.createdAt),
-              welcomeDescription: photoResult.description,
-              thumbImageURL: photoResult.urls.thumb,
-              largeImageURL: photoResult.urls.full,
-              isLiked: photoResult.likedByUser)
+        var dateString = ""
+        if let photoDate = fromStringDateFormatter.date(from: photoResult.createdAt) {
+            dateString = toStringDateFormatter.string(from: photoDate)
+        }
+        
+        let photo = Photo(
+            id: photoResult.id,
+            size: CGSize(width: photoResult.width,
+                         height: photoResult.height),
+            createdAt: dateString,
+            welcomeDescription: photoResult.description,
+            thumbImageURL: photoResult.urls.thumb,
+            largeImageURL: photoResult.urls.full,
+            isLiked: photoResult.likedByUser)
+        return photo
     }
+    
+    private lazy var toStringDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
     
 }

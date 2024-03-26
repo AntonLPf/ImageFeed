@@ -59,7 +59,6 @@ class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
         label.text = "Екатерина Новикова"
         label.textColor = UIColor(named: Constants.Color.ypWhite)
         label.font = UIFont(name: Constants.Font.ysDisplayBold, size: 23)
-        label.accessibilityIdentifier = "Name Lastname"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

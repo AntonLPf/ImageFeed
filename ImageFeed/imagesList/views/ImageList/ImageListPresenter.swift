@@ -15,7 +15,7 @@ protocol ImageListPresenterProtocol {
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
 }
 
-final class ImageListPresenter: ImageListPresenterProtocol {
+class ImageListPresenter: ImageListPresenterProtocol {
     
     weak var view: ImagesListViewControllerProtocol?
     
@@ -40,8 +40,8 @@ final class ImageListPresenter: ImageListPresenterProtocol {
                 
                 let oldCount = photos.count
                 let newCount = imagesListService.photos.count
-                photos = imagesListService.photos
                 if oldCount != newCount {
+                    photos = imagesListService.photos
                     let photoIndexes = (oldCount..<newCount)
                     self.view?.updateTableViewAnimated(photoIndexes: photoIndexes)
                 }
