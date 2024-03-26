@@ -1,14 +1,19 @@
 //
-//  UIViewController+AlertPresentation.swift
+//  AlertPresenter.swift
 //  ImageFeed
 //
-//  Created by Антон Шишкин on 02.03.24.
+//  Created by Антон Шишкин on 22.03.24.
 //
 
 import UIKit
 
-extension UIViewController {
-    func presentAlert(model: AlertModel) {
+protocol AlertPresenterProtocol {
+    func presentAlert(model: AlertModel,on vc: AnyObject)
+}
+
+struct AlertPresenter: AlertPresenterProtocol {
+    func presentAlert(model: AlertModel,on vc: AnyObject) {
+        guard let vc = vc as? UIViewController else { return }
         let alert = UIAlertController(title: model.title,
                                       message: model.message,
                                       preferredStyle: .alert)
@@ -22,6 +27,6 @@ extension UIViewController {
             }
         }
         
-        self.present(alert, animated: true, completion: nil)
+        vc.present(alert, animated: true, completion: nil)
     }
 }

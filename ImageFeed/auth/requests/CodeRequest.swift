@@ -24,10 +24,10 @@ enum CodeRequest: RequestProtocol {
     
     var urlParams: [String : String?] {
         [
-            "client_id": Constants.SplashApi.accesKey,
-            "redirect_uri": Constants.SplashApi.redirectUri,
+            "client_id": Constants.UnsplashApi.accessKey,
+            "redirect_uri": Constants.UnsplashApi.redirectUri,
             "response_type": "code",
-            "scope": Constants.SplashApi.accessScope
+            "scope": Constants.UnsplashApi.accessScope
         ]
     }
 }

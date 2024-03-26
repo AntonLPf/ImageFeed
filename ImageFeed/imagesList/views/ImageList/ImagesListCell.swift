@@ -45,6 +45,7 @@ final class ImagesListCell: UITableViewCell {
     func setIsLiked(to state: Bool) {
         let likeImageName = state ? "LikePressed" : "LikeUnPressed"
         likeButton.imageView?.image = UIImage(named: likeImageName)
+        likeButton.accessibilityIdentifier = state ? "like button on" : "like button off"
     }
     
     private func resetCell() {

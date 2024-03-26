@@ -8,15 +8,30 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
-    
-    private let profileLogoutService = ProfileLogoutService.shared
-    
-    private static let profileImageWidth = 70.0
-    
-    private var profileImageServiceObserver: NSObjectProtocol?
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfileViewPresenterProtocol? { get set }
+    func updateProfileDetails(with profile: Profile)
+    func updateAvatar(avatarUrl: URL?)
+}
 
-    // MARK: - creating views
+class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+    
+    static private let profileImageWidth: CGFloat = 70.0
+    private let profilePicturePlaceHolder = Constants.Picture.profilePicturePlaceHolder
+
+    var presenter: ProfileViewPresenterProtocol?
+    
+    init(presenter: ProfileViewPresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+        self.presenter?.view = self
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Creating views
     
     private let profileImageView: UIImageView = {
         let profilePicture = UIImage(named: Constants.Picture.profilePicturePlaceHolder)
@@ -33,7 +48,8 @@ final class ProfileViewController: UIViewController {
         button.titleLabel?.text = ""
         let profilePicture = UIImage(named: Constants.Picture.exitButton)
         button.setImage(profilePicture, for: .normal)
-        button.addTarget(self, action: #selector(didExitButtonTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(exitButtonDidTap), for: .touchUpInside)
+        button.accessibilityIdentifier = "logout button"
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -64,9 +80,7 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    // MARK: - container views
-    
+        
     private let containerView: UIView = {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -89,21 +103,7 @@ final class ProfileViewController: UIViewController {
         setupMainView()
         addSubViews()
         applyConstraints()
-        
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.didChangeNotification,
-            object: nil,
-            queue: .main,
-            using: { [weak self] _ in
-                guard let self = self else { return }
-                self.updateAvatar()
-            })
-        updateAvatar()
-        
-        let profileService = ProfileService.shared
-        if let profile = profileService.profile {
-            updateProfileDetails(profile)
-        }
+        presenter?.viewDidLoad()
     }
     
     // MARK: - assembling
@@ -149,42 +149,22 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - actions
     
-    @objc private func didExitButtonTap() {
-        let alertModel = AlertModel(title: "Пока, пока!", message: "Уверены что хотите выйти?", buttons: [
-            AlertModel.Button(buttonText: "Да", actionHandler: { _ in
-                self.profileLogoutService.logout()
-                self.gotoSplashScreen()
-            }, style: .destructive),
-            AlertModel.Button(buttonText: "Нет", actionHandler: { _ in }, style: .default)
-        ])
-        presentAlert(model: alertModel)
+    @objc private func exitButtonDidTap() {
+        presenter?.exitButtonDidTap()
     }
     
     // MARK: - Methods
-    
-    private func gotoSplashScreen() {
-        guard let window = UIApplication.shared.windows.first else {
-            preconditionFailure("Invalid Configuration")
-        }
-        let splashViewController = SplashViewController()
-        window.rootViewController = splashViewController
-    }
-    
-    private func updateProfileDetails(_ profile: Profile) {
+        
+    func updateProfileDetails(with profile: Profile) {
         nameLabel.text = profile.name
         loginNameLabel.text = profile.loginName
         descriptionLabel.text = profile.bio
     }
     
-    private func updateAvatar() {
-        guard
-            let profileImageUrl = ProfileImageService.shared.avatarUrl,
-            let imageUrl = URL(string: profileImageUrl)
-        else { return }
-        
-        let placeHolderImage = UIImage(named: Constants.Picture.profilePicturePlaceHolder)
+    func updateAvatar(avatarUrl: URL?) {
+        guard let avatarUrl else { return }
+        let placeHolderImage = UIImage(named: profilePicturePlaceHolder)
         profileImageView.kf.indicatorType = .activity
-        profileImageView.kf.setImage(with: imageUrl, placeholder: placeHolderImage)
+        profileImageView.kf.setImage(with: avatarUrl, placeholder: placeHolderImage)
     }
 }
-

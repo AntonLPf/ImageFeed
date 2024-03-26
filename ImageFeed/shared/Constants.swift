@@ -9,6 +9,33 @@ import Foundation
 
 enum Constants {
     
+    struct AuthConfiguration {
+        let accessKey: String
+        let secretKey: String
+        let redirectURI: String
+        let accessScope: String
+        let defaultBaseURL: URL
+        let authURLString: String
+
+        init(accessKey: String, secretKey: String, redirectURI: String, accessScope: String, authURLString: String, defaultBaseURL: URL) {
+            self.accessKey = accessKey
+            self.secretKey = secretKey
+            self.redirectURI = redirectURI
+            self.accessScope = accessScope
+            self.defaultBaseURL = defaultBaseURL
+            self.authURLString = authURLString
+        }
+        
+        static var standard: AuthConfiguration {
+                return AuthConfiguration(accessKey: UnsplashApi.accessKey,
+                                         secretKey: UnsplashApi.secretKey,
+                                         redirectURI: UnsplashApi.redirectUri,
+                                         accessScope: UnsplashApi.accessScope,
+                                         authURLString: UnsplashApi.authorizingUrlString,
+                                         defaultBaseURL: UnsplashApi.defaultBaseUrl)
+            }
+    }
+    
     struct Color {
         static let ypBlack = "YPBlack"
         static let ypWhite = "YPWhite"
@@ -40,14 +67,14 @@ enum Constants {
         static let tabBarViewController = "TabBarViewController"
     }
     
-    struct SplashApi {
+    struct UnsplashApi {
         static let host = "unsplash.com"
         static let apiHost = "api.unsplash.com"
-        static let accesKey = "gOcCwhsMrjRXy83ALiImrfQhnm2-NoA5TL3-MeHbRMA"
+        static let accessKey = "gOcCwhsMrjRXy83ALiImrfQhnm2-NoA5TL3-MeHbRMA"
         static let secretKey = "EI7spYRB6F_WOjKYB2r2uB3Npg9ctzv17v7AV_IgD9Y"
         static let redirectUri = "urn:ietf:wg:oauth:2.0:oob"
         static let accessScope = "public+read_user+write_likes"
-        static let defaultBaseUrl = URL(string: "https://api.unsplash.com")
+        static let defaultBaseUrl = URL(string: "https://api.unsplash.com")!
         static let authorizingUrlString = "https://unsplash.com/oauth/authorize"
         
         static let numberOfImagesPerPage = 10

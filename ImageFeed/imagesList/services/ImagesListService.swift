@@ -7,14 +7,29 @@
 
 import Foundation
 
-final class ImagesListService {
+protocol ImageListServiceProtocol: AnyObject {
+    var photos: [Photo] { get }
+    var didChangeNotificationName: Notification.Name { get }
+    
+    func fetchPhotosNextPage(_ token: String,_ completion: @escaping (Result<[Photo], Error>) -> Void)
+    
+    func changeLike(token: String, photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool, Error>) -> Void)
+    
+    func reset()
+}
+
+extension ImageListServiceProtocol {
+    
+    var didChangeNotificationName: Notification.Name {
+        Notification.Name(Constants.NCNotification.imagesListServiceDidChange)
+    }
+    
+}
+
+final class ImagesListService: ImageListServiceProtocol {
     
     static let shared = ImagesListService()
     private init() {}
-    
-    static let didChangeNotification = Notification.Name(
-        Constants.NCNotification.imagesListServiceDidChange
-    )
     
     private(set) var photos: [Photo] = []
     
@@ -29,7 +44,7 @@ final class ImagesListService {
         guard ongoingTask == nil else { return }
         
         let nextPage = (lastLoadedPage ?? 0) + 1
-        let perPage = Constants.SplashApi.numberOfImagesPerPage
+        let perPage = Constants.UnsplashApi.numberOfImagesPerPage
         let request = ImageListRequest.getImages(page: nextPage, perPage: perPage)
 
         guard let request = try? request.createURLRequest(token: token) else {
@@ -48,7 +63,7 @@ final class ImagesListService {
                     completion(.success(loadedPhotos))
                     
                     NotificationCenter.default.post(
-                        name: ImagesListService.didChangeNotification,
+                        name: self.didChangeNotificationName,
                         object: self,
                         userInfo: [:])
                 case .failure(let error):
@@ -107,17 +122,31 @@ final class ImagesListService {
         lastLoadedPage = nil
     }
     
-    private let dateFormatter = ISO8601DateFormatter()
-
+    private lazy var fromStringDateFormatter = ISO8601DateFormatter()
+    
     private func convertToPhoto(_ photoResult: PhotoResult) -> Photo {
-        Photo(id: photoResult.id,
-              size: CGSize(width: photoResult.width,
-                           height: photoResult.height),
-              createdAt: dateFormatter.date(from: photoResult.createdAt),
-              welcomeDescription: photoResult.description,
-              thumbImageURL: photoResult.urls.thumb,
-              largeImageURL: photoResult.urls.full,
-              isLiked: photoResult.likedByUser)
+        var dateString = ""
+        if let photoDate = fromStringDateFormatter.date(from: photoResult.createdAt) {
+            dateString = toStringDateFormatter.string(from: photoDate)
+        }
+        
+        let photo = Photo(
+            id: photoResult.id,
+            size: CGSize(width: photoResult.width,
+                         height: photoResult.height),
+            createdAt: dateString,
+            welcomeDescription: photoResult.description,
+            thumbImageURL: photoResult.urls.thumb,
+            largeImageURL: photoResult.urls.full,
+            isLiked: photoResult.likedByUser)
+        return photo
     }
+    
+    private lazy var toStringDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
     
 }
